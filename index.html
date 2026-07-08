@@ -111,6 +111,9 @@
         preload="auto">
       </video>
 
+      <!-- Elemento de Audio de Fondo (wilmar.mpeg) -->
+      <audio id="bgAudio" src="assets/audio/wilmar.mpeg" preload="auto"></audio>
+
       <!-- Overlay Oscuro Superior e Inferior para legibilidad del texto -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10 pointer-events-none"></div>
 
@@ -472,6 +475,7 @@
     const muteIcon = document.getElementById('muteIcon');
     const volumeIcon = document.getElementById('volumeIcon');
     const soundTooltip = document.getElementById('soundTooltip');
+    const bgAudio = document.getElementById('bgAudio');
 
     const modal = document.getElementById('detailModal');
     const modalContent = document.getElementById('modalContent');
@@ -487,10 +491,15 @@
 
     let activePlaceId = null;
 
-    // Control de Audio del Video
+    // Control de Audio de Fondo (wilmar.mpeg)
     soundBtn.addEventListener('click', () => {
-      if (video.muted) {
-        video.muted = false;
+      if (bgAudio.paused) {
+        // Empezar en 1:59 (119 segundos) si es el primer inicio
+        if (bgAudio.currentTime === 0) {
+          bgAudio.currentTime = 119;
+        }
+        bgAudio.play().catch(err => console.log("Error al reproducir audio:", err));
+        
         soundBtn.classList.add('sound-on');
         muteIcon.classList.add('hidden');
         volumeIcon.classList.remove('hidden');
@@ -498,7 +507,8 @@
         soundTooltip.classList.remove('text-slate-300');
         soundTooltip.classList.add('text-emeraldCustom');
       } else {
-        video.muted = true;
+        bgAudio.pause();
+        
         soundBtn.classList.remove('sound-on');
         muteIcon.classList.remove('hidden');
         volumeIcon.classList.add('hidden');
@@ -506,6 +516,12 @@
         soundTooltip.classList.remove('text-emeraldCustom');
         soundTooltip.classList.add('text-slate-300');
       }
+    });
+
+    // Bucle personalizado desde 1:59 al finalizar
+    bgAudio.addEventListener('ended', () => {
+      bgAudio.currentTime = 119;
+      bgAudio.play().catch(err => console.log("Error al reiniciar bucle de audio:", err));
     });
 
     // Gestión del Modal

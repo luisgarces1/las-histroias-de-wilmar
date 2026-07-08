@@ -72,13 +72,22 @@ export default function BelloLandingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
 
-  // Manejar el toggle del audio del video
+  // Manejar el toggle del audio de fondo (wilmar.mpeg)
   const toggleSound = () => {
-    if (videoRef.current) {
-      const nextMutedState = !videoRef.current.muted;
-      videoRef.current.muted = nextMutedState;
-      setIsMuted(nextMutedState);
+    if (audioRef.current) {
+      const isPaused = audioRef.current.paused;
+      if (isPaused) {
+        if (audioRef.current.currentTime === 0) {
+          audioRef.current.currentTime = 119;
+        }
+        audioRef.current.play().catch(err => console.log("Error al reproducir audio:", err));
+        setIsMuted(false);
+      } else {
+        audioRef.current.pause();
+        setIsMuted(true);
+      }
     }
   };
 
@@ -109,10 +118,25 @@ export default function BelloLandingPage() {
     setHasVoted(true);
   };
 
-  // Prevenir scroll accidental cuando el modal está abierto
+  // Prevenir scroll accidental y manejar el bucle del audio
   useEffect(() => {
+    const audioEl = audioRef.current;
+    const handleAudioEnded = () => {
+      if (audioEl) {
+        audioEl.currentTime = 119;
+        audioEl.play().catch(err => console.log("Error al reiniciar bucle de audio:", err));
+      }
+    };
+
+    if (audioEl) {
+      audioEl.addEventListener('ended', handleAudioEnded);
+    }
+
     return () => {
       document.body.style.overflow = 'unset';
+      if (audioEl) {
+        audioEl.removeEventListener('ended', handleAudioEnded);
+      }
     };
   }, []);
 
@@ -135,6 +159,13 @@ export default function BelloLandingPage() {
             loop
             muted
             playsInline
+            preload="auto"
+          />
+
+          {/* Audio de Fondo (wilmar.mpeg) */}
+          <audio
+            ref={audioRef}
+            src="/assets/audio/wilmar.mpeg"
             preload="auto"
           />
 
