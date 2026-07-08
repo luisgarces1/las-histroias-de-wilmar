@@ -102,10 +102,10 @@
     <!-- ========================================================================= -->
     <div 
       id="introOverlay" 
-      class="absolute top-0 left-0 w-full h-[100dvh] z-50 bg-[#0B0F19] flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
+      class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
     >
       <!-- Pantalla de inicio para permitir sonido (Requerido por políticas de autoplay de navegadores) -->
-      <div id="introStartScreen" class="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90">
+      <div id="introStartScreen" class="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90 w-full max-w-md mx-auto">
         <!-- Decoración superior -->
         <div class="mt-8">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emeraldCustom/10 text-emeraldCustom border border-emeraldCustom/20 uppercase tracking-widest animate-pulse-slow">
@@ -116,10 +116,10 @@
         <!-- Logo/Título -->
         <div class="space-y-4">
           <h2 class="text-3xl font-black tracking-tight text-white leading-tight">
-            Betsabé Espinal en Bello
+            La Huelga de Bello de 1920
           </h2>
           <p class="text-sm text-slate-300 font-light max-w-xs mx-auto leading-relaxed">
-            Una historia inspiradora de lucha y liderazgo en nuestro municipio. Descubre el legado.
+            La histórica huelga liderada por Betsabé Espinal y las obreras textiles en 1920. Descubre el legado.
           </p>
         </div>
 
@@ -138,11 +138,11 @@
       </div>
 
       <!-- Reproductor del Video de Introducción (Inicialmente oculto) -->
-      <div id="introVideoContainer" class="absolute inset-0 hidden w-full h-full z-10 bg-black">
+      <div id="introVideoContainer" class="absolute inset-0 hidden w-full h-full z-10 bg-black flex items-center justify-center">
         <video 
           id="introVideo"
-          class="w-full h-full object-cover"
-          src="assets/video/betsabe_espinal.mp4"
+          class="w-full h-full object-contain"
+          src="assets/video/La_huelga_de_Bello_de_1920.mp4"
           playsinline
           preload="auto"
         ></video>
@@ -829,9 +829,6 @@
 
         // Habilitar de nuevo el scroll de la página
         document.body.classList.remove('overflow-hidden', 'h-screen');
-
-        // Iniciar la música de fondo automáticamente para dar fluidez
-        startBackgroundMusic();
       }
 
       skipIntroBtn.addEventListener('click', closeIntro);

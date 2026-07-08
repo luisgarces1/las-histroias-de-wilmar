@@ -131,7 +131,6 @@ export default function BelloLandingPage() {
     setIntroFading(true);
     setTimeout(() => {
       setShowIntro(false);
-      startBackgroundMusic();
     }, 700);
   };
 
@@ -241,11 +240,11 @@ export default function BelloLandingPage() {
         {showIntro && (
           <div 
             id="introOverlay" 
-            className={`absolute inset-0 z-50 bg-[#0B0F19] flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${introFading ? 'opacity-0 pointer-events-none' : ''}`}
+            className={`fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${introFading ? 'opacity-0 pointer-events-none' : ''}`}
           >
             {/* Pantalla de inicio para permitir sonido */}
             {!showIntroVideo ? (
-              <div id="introStartScreen" className="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90">
+              <div id="introStartScreen" className="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90 w-full max-w-md mx-auto">
                 <div className="mt-8">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest animate-pulse-slow">
                     🎥 Presentación Especial
@@ -254,10 +253,10 @@ export default function BelloLandingPage() {
                 
                 <div className="space-y-4">
                   <h2 className="text-3xl font-black tracking-tight text-white leading-tight">
-                    Betsabé Espinal en Bello
+                    La Huelga de Bello de 1920
                   </h2>
                   <p className="text-sm text-slate-300 font-light max-w-xs mx-auto leading-relaxed">
-                    Una historia inspiradora de lucha y liderazgo en nuestro municipio. Descubre el legado.
+                    La histórica huelga liderada por Betsabé Espinal y las obreras textiles en 1920. Descubre el legado.
                   </p>
                 </div>
 
@@ -275,11 +274,11 @@ export default function BelloLandingPage() {
               </div>
             ) : (
               /* Reproductor del Video de Introducción */
-              <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black">
+              <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
                 <video 
                   ref={introVideoRef}
-                  className="w-full h-full object-cover"
-                  src="/assets/video/betsabe_espinal.mp4"
+                  className="w-full h-full object-contain"
+                  src="/assets/video/La_huelga_de_Bello_de_1920.mp4"
                   playsInline
                   onEnded={handleCloseIntro}
                 ></video>
