@@ -187,13 +187,13 @@ export default function BelloLandingPage() {
         {/* ========================================================== */}
         <!-- HERO SECTION: VIDEO VERTICAL -->
         {/* ========================================================== */}
-        <section className="h-[100dvh] w-full relative overflow-hidden flex flex-col justify-between">
+        <section className="h-[100dvh] w-full relative overflow-hidden flex flex-col justify-between bg-cover bg-center" style={{ backgroundImage: "url('/assets/images/vista_aerea_bello_mejorada.png')" }}>
           {/* Video en bucle */}
           <video
             ref={videoRef}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
-            src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" // Reemplazar con '/video-bello.mp4' en producción
-            poster="/assets/images/video_poster.png"
+            src="/assets/video/video-bello.mp4" // Reemplazar con '/video-bello.mp4' en producción
+            poster="/assets/images/vista_aerea_bello_mejorada.png"
             autoPlay
             loop
             muted
