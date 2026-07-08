@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 // IMPORTANTE: Asegúrate de instalar lucide-react (npm i lucide-react)
-import { Volume2, VolumeX, MapPin, X, ChevronDown, Sparkles, Heart } from 'lucide-react';
+import { Volume2, VolumeX, MapPin, X, ChevronDown, Sparkles, Heart, Check, Send, ClipboardList } from 'lucide-react';
 
 /**
  * COMPONENTE: BelloLandingPage
@@ -71,6 +71,11 @@ export default function BelloLandingPage() {
   const [hasVoted, setHasVoted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+  // Estados para captura de datos
+  const [formData, setFormData] = useState({ voterName: '', voterPhone: '', voterNeighborhood: '', voterMessage: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const videoRef = useRef(null);
   const audioRef = useRef(null);
 
@@ -89,6 +94,21 @@ export default function BelloLandingPage() {
         setIsMuted(true);
       }
     }
+  };
+
+  const handleFormChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      console.log("Formulario de contacto registrado:", formData);
+    }, 1500);
   };
 
   // Manejar la apertura del modal de sitio
@@ -118,7 +138,7 @@ export default function BelloLandingPage() {
     setHasVoted(true);
   };
 
-  // Prevenir scroll accidental y manejar el bucle del audio
+  // Prevenir scroll accidental, manejar el bucle del audio y las animaciones al hacer scroll
   useEffect(() => {
     const audioEl = audioRef.current;
     const handleAudioEnded = () => {
@@ -132,11 +152,30 @@ export default function BelloLandingPage() {
       audioEl.addEventListener('ended', handleAudioEnded);
     }
 
+    // Intersection Observer para Animaciones al hacer Scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach(el => observer.observe(el));
+
     return () => {
       document.body.style.overflow = 'unset';
       if (audioEl) {
         audioEl.removeEventListener('ended', handleAudioEnded);
       }
+      observer.disconnect();
     };
   }, []);
 
@@ -292,12 +331,227 @@ export default function BelloLandingPage() {
             ))}
           </div>
 
+        </section>
+
+        {/* ========================================================== */}
+        {/* SECCIÓN DE PROPUESTAS (CON ANIMACIONES AL HACER SCROLL) */}
+        {/* ========================================================== */}
+        <section id="proposals" className="py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden scroll-mt-2">
+          {/* Brillo sutil de fondo */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/5 rounded-full blur-[90px] pointer-events-none" />
+
+          {/* Cabecera de la sección */}
+          <div className="mb-8 relative z-10 reveal-on-scroll">
+            <h3 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> Propuestas Comunitarias
+            </h3>
+            <h2 className="text-2xl font-black text-white tracking-tight leading-none">
+              Nuestras Ideas para Bello
+            </h2>
+            <p className="text-xs text-slate-400 mt-2">
+              Construyendo un mejor municipio a través de compromisos reales y viñetas claras.
+            </p>
+          </div>
+
+          {/* Lista de Propuestas */}
+          <div className="space-y-4 relative z-10">
+            
+            {/* Propuesta 1 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '50ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🎓</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Educación y Oportunidades</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Cursos digitales y talleres de emprendimiento para jóvenes en barrios.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Acceso gratuito a capacitaciones técnicas en alianza con el sector local.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 2 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '100ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🌱</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Bello Verde y Sostenible</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Recuperación ecológica de senderos turísticos en el Cerro Quitasol.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Siembras de árboles nativos y cuidado del patrimonio natural hídrico.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 3 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🛡️</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Comunidad Segura</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Instalación de iluminación LED moderna en parques y zonas de tránsito peatonal.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Redes de comunicación vecinal activas para la prevención ciudadana.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 4 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '200ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🚀</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Cultura e Identidad</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Eventos culturales y artísticos al aire libre en espacios comunitarios.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Preservación activa del patrimonio y la memoria histórica de Bello.</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ========================================================== */}
+        {/* SECCIÓN: FORMULARIO DE CAPTURA DE DATOS */}
+        {/* ========================================================== */}
+        <section id="capture-form" className="py-12 px-5 bg-[#0B0F19] relative border-t border-white/5 scroll-mt-2">
+          {/* Glow de fondo */}
+          <div className="absolute bottom-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-[90px] pointer-events-none" />
+
+          <div className="mb-8 relative z-10 reveal-on-scroll">
+            <h3 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+              <ClipboardList className="w-3.5 h-3.5" /> Únete al Cambio
+            </h3>
+            <h2 className="text-2xl font-black text-white tracking-tight leading-none font-sans">
+              ¿Te sumas a participar?
+            </h2>
+            <p className="text-xs text-slate-400 mt-2 font-sans">
+              Comparte tu contacto para sumarte a las propuestas y construir el futuro de Bello.
+            </p>
+          </div>
+
+          {/* Tarjeta de Formulario */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 relative z-10 reveal-on-scroll shadow-xl">
+            
+            {!isSubmitted ? (
+              <div id="formContainer">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="voterName" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Nombre Completo</label>
+                    <input 
+                      type="text" 
+                      id="voterName" 
+                      required 
+                      value={formData.voterName}
+                      onChange={handleFormChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      placeholder="Ej. Juan Pérez"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="voterPhone" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Número de WhatsApp</label>
+                    <input 
+                      type="tel" 
+                      id="voterPhone" 
+                      required 
+                      value={formData.voterPhone}
+                      onChange={handleFormChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      placeholder="Ej. 300 123 4567"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="voterNeighborhood" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Barrio o Comuna</label>
+                    <input 
+                      type="text" 
+                      id="voterNeighborhood" 
+                      required 
+                      value={formData.voterNeighborhood}
+                      onChange={handleFormChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      placeholder="Ej. Niquía, Cabañas, etc."
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="voterMessage" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Mensaje o Idea (Opcional)</label>
+                    <textarea 
+                      id="voterMessage" 
+                      rows={3} 
+                      value={formData.voterMessage}
+                      onChange={handleFormChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 resize-none font-sans" 
+                      placeholder="¿Qué propuesta te parece más prioritaria o qué idea tienes?"
+                    />
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full mt-4 py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-all hover:brightness-110 disabled:opacity-70 font-sans"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Registrando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Enviar mis datos y propuesta</span>
+                        <Send className="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div id="formSuccess" className="text-center py-6 px-2 space-y-4 animate-fade-in">
+                <div className="w-14 h-14 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
+                  <Check className="w-6 h-6 text-emerald-500" />
+                </div>
+                <div>
+                  <h4 className="text-base font-extrabold text-white font-sans">¡Registro Exitoso!</h4>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed font-sans">
+                    Gracias, <span className="text-emerald-400 font-bold">{formData.voterName}</span>. Tus datos han sido guardados de forma segura. Wilmar Salgado se pondrá en contacto contigo pronto.
+                  </p>
+                </div>
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-sans">Las Historias de Wilmar • 2026</p>
+              </div>
+            )}
+
+          </div>
+
           {/* Footer de la página */}
           <footer className="mt-12 text-center relative z-10 border-t border-white/5 pt-8">
-            <p className="text-xs text-slate-400 font-light">
+            <p className="text-xs text-slate-400 font-light font-sans">
               Diseñado con <Heart className="w-3 h-3 text-emerald-500 inline-block align-middle" /> por y para Bello, Antioquia.
             </p>
-            <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold">
+            <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold font-sans">
               Experiencia Interactiva No Partidaria • 2026
             </p>
           </footer>

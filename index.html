@@ -80,6 +80,15 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -318,7 +327,205 @@
 
       </div>
 
-      <!-- Compartir & Créditos Sutiles -->
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECCIÓN DE PROPUESTAS (CON ANIMACIONES DE DESPLAZAMIENTO)                 -->
+    <!-- ========================================================================= -->
+    <section id="proposals" class="py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden">
+      <!-- Brillo sutil de fondo -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emeraldCustom/5 rounded-full blur-[90px] pointer-events-none"></div>
+
+      <!-- Cabecera de la sección -->
+      <div class="mb-8 relative z-10 reveal-on-scroll">
+        <h3 class="text-xs font-bold text-emeraldCustom uppercase tracking-widest mb-1 flex items-center gap-1.5">
+          <span>🎯</span> Propuestas Comunitarias
+        </h3>
+        <h2 class="text-2xl font-black text-white tracking-tight leading-none">
+          Nuestras Ideas para Bello
+        </h2>
+        <p class="text-xs text-slate-400 mt-2">
+          Construyendo un mejor municipio a través de compromisos reales y viñetas claras.
+        </p>
+      </div>
+
+      <!-- Lista de Propuestas (Animaciones sutiles y retrasadas) -->
+      <div class="space-y-4 relative z-10">
+        
+        <!-- Propuesta 1 -->
+        <div class="glass-card rounded-2xl p-5 reveal-on-scroll" style="transition-delay: 50ms;">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-lg bg-emeraldCustom/10 text-emeraldCustom flex items-center justify-center text-base font-bold">🎓</span>
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider">Educación y Oportunidades</h4>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-light">
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Cursos digitales y talleres de emprendimiento para jóvenes en barrios.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Acceso gratuito a capacitaciones técnicas en alianza con el sector local.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Propuesta 2 -->
+        <div class="glass-card rounded-2xl p-5 reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-lg bg-emeraldCustom/10 text-emeraldCustom flex items-center justify-center text-base font-bold">🌱</span>
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider">Bello Verde y Sostenible</h4>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-light">
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Recuperación ecológica de senderos turísticos en el Cerro Quitasol.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Siembras de árboles nativos y cuidado del patrimonio natural hídrico.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Propuesta 3 -->
+        <div class="glass-card rounded-2xl p-5 reveal-on-scroll" style="transition-delay: 150ms;">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-lg bg-emeraldCustom/10 text-emeraldCustom flex items-center justify-center text-base font-bold">🛡️</span>
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider">Comunidad Segura</h4>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-light">
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Instalación de iluminación LED moderna en parques y zonas de tránsito peatonal.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Redes de comunicación vecinal activas para la prevención ciudadana.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Propuesta 4 -->
+        <div class="glass-card rounded-2xl p-5 reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-8 h-8 rounded-lg bg-emeraldCustom/10 text-emeraldCustom flex items-center justify-center text-base font-bold">🚀</span>
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider">Cultura e Identidad</h4>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-light">
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Eventos culturales y artísticos al aire libre en espacios comunitarios.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emeraldCustom mt-0.5">✓</span>
+              <span>Preservación activa del patrimonio y la memoria histórica de Bello.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECCIÓN: FORMULARIO DE CAPTURA DE DATOS (GLASSMORPHISM)                   -->
+    <!-- ========================================================================= -->
+    <section id="capture-form" class="py-12 px-5 bg-[#0B0F19] relative border-t border-white/5">
+      <!-- Glow de fondo -->
+      <div class="absolute bottom-0 right-0 w-48 h-48 bg-blueCustom/5 rounded-full blur-[90px] pointer-events-none"></div>
+
+      <div class="mb-8 relative z-10 reveal-on-scroll">
+        <h3 class="text-xs font-bold text-emeraldCustom uppercase tracking-widest mb-1 flex items-center gap-1.5">
+          <span>🤝</span> Únete al Cambio
+        </h3>
+        <h2 class="text-2xl font-black text-white tracking-tight leading-none">
+          ¿Te sumas a participar?
+        </h2>
+        <p class="text-xs text-slate-400 mt-2">
+          Comparte tu contacto para sumarte a las propuestas y construir el futuro de Bello.
+        </p>
+      </div>
+
+      <!-- Tarjeta de Formulario -->
+      <div class="glass-card rounded-3xl p-6 relative z-10 border border-white/10 reveal-on-scroll shadow-xl">
+        
+        <!-- Formulario (Visible) -->
+        <div id="formContainer">
+          <form id="contactForm" class="space-y-4">
+            <div>
+              <label for="voterName" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre Completo</label>
+              <input 
+                type="text" 
+                id="voterName" 
+                required 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emeraldCustom focus:outline-none focus:ring-1 focus:ring-emeraldCustom/30 transition-all duration-200" 
+                placeholder="Ej. Juan Pérez"
+              >
+            </div>
+            
+            <div>
+              <label for="voterPhone" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Número de WhatsApp</label>
+              <input 
+                type="tel" 
+                id="voterPhone" 
+                required 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emeraldCustom focus:outline-none focus:ring-1 focus:ring-emeraldCustom/30 transition-all duration-200" 
+                placeholder="Ej. 300 123 4567"
+              >
+            </div>
+
+            <div>
+              <label for="voterNeighborhood" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Barrio o Comuna</label>
+              <input 
+                type="text" 
+                id="voterNeighborhood" 
+                required 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emeraldCustom focus:outline-none focus:ring-1 focus:ring-emeraldCustom/30 transition-all duration-200" 
+                placeholder="Ej. Niquía, Cabañas, etc."
+              >
+            </div>
+
+            <div>
+              <label for="voterMessage" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Mensaje o Idea (Opcional)</label>
+              <textarea 
+                id="voterMessage" 
+                rows="3" 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emeraldCustom focus:outline-none focus:ring-1 focus:ring-emeraldCustom/30 transition-all duration-200 resize-none" 
+                placeholder="¿Qué propuesta te parece más prioritaria o qué idea tienes?"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full mt-4 py-4 px-6 rounded-xl bg-gradient-to-r from-emeraldCustom to-blueCustom text-white font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-emeraldCustom/25 active:scale-[0.98] transition-all hover:brightness-110"
+            >
+              <span>Enviar mis datos y propuesta</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Pantalla de Éxito (Oculta por defecto) -->
+        <div id="formSuccess" class="hidden text-center py-6 px-2 space-y-4">
+          <div class="w-14 h-14 bg-emeraldCustom/10 text-emeraldCustom rounded-full flex items-center justify-center mx-auto border border-emeraldCustom/30 animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-base font-extrabold text-white">¡Registro Exitoso!</h4>
+            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+              Gracias, <span id="successUserName" class="text-emeraldCustom font-bold"></span>. Tus datos han sido guardados de forma segura. Wilmar Salgado se pondrá en contacto contigo pronto.
+            </p>
+          </div>
+          <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Las Historias de Wilmar • 2026</p>
+        </div>
+
+      </div>
+
+      <!-- Compartir & Créditos Sutiles (Reubicado al final del flujo principal) -->
       <footer class="mt-12 text-center relative z-10 border-t border-white/5 pt-8">
         <p class="text-xs text-slate-400 font-light leading-relaxed">
           Diseñado con ❤️ por y para Bello, Antioquia.
@@ -599,6 +806,63 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
+
+    // Intersection Observer para Animaciones al hacer Scroll
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+          observer.unobserve(entry.target); // Animar una sola vez
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+      scrollObserver.observe(el);
+    });
+
+    // Manejo del Formulario de Captura de Datos
+    const contactForm = document.getElementById('contactForm');
+    const formContainer = document.getElementById('formContainer');
+    const formSuccess = document.getElementById('formSuccess');
+    const successUserName = document.getElementById('successUserName');
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('voterName').value;
+        const phone = document.getElementById('voterPhone').value;
+        const neighborhood = document.getElementById('voterNeighborhood').value;
+        const message = document.getElementById('voterMessage').value;
+        
+        // Animación de envío en el botón
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg> Registrando...
+        `;
+        
+        setTimeout(() => {
+          // Ocultar formulario y mostrar éxito
+          formContainer.classList.add('hidden');
+          successUserName.textContent = name;
+          formSuccess.classList.remove('hidden');
+          formSuccess.classList.add('animate-fade-in');
+          
+          console.log("Datos de contacto registrados:", { name, phone, neighborhood, message });
+        }, 1500);
+      });
+    }
   </script>
 </body>
 </html>
