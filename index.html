@@ -92,11 +92,74 @@
     }
   </style>
 </head>
-<body class="bg-[#04060A] text-slate-100 font-sans antialiased overflow-x-hidden">
+<body class="bg-[#04060A] text-slate-100 font-sans antialiased overflow-x-hidden overflow-hidden h-screen">
 
   <!-- Contenedor Principal (Mobile-First Frame) -->
   <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slateDark shadow-2xl relative border-x border-slate-900">
     
+    <!-- ========================================================================= -->
+    <!-- INTRO VIDEO OVERLAY (SPLASH SCREEN)                                       -->
+    <!-- ========================================================================= -->
+    <div 
+      id="introOverlay" 
+      class="absolute top-0 left-0 w-full h-[100dvh] z-50 bg-[#0B0F19] flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
+    >
+      <!-- Pantalla de inicio para permitir sonido (Requerido por políticas de autoplay de navegadores) -->
+      <div id="introStartScreen" class="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90">
+        <!-- Decoración superior -->
+        <div class="mt-8">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emeraldCustom/10 text-emeraldCustom border border-emeraldCustom/20 uppercase tracking-widest animate-pulse-slow">
+            🎥 Presentación Especial
+          </span>
+        </div>
+        
+        <!-- Logo/Título -->
+        <div class="space-y-4">
+          <h2 class="text-3xl font-black tracking-tight text-white leading-tight">
+            Betsabé Espinal en Bello
+          </h2>
+          <p class="text-sm text-slate-300 font-light max-w-xs mx-auto leading-relaxed">
+            Una historia inspiradora de lucha y liderazgo en nuestro municipio. Descubre el legado.
+          </p>
+        </div>
+
+        <!-- Botón para Iniciar con Sonido -->
+        <div class="mb-12">
+          <button 
+            id="startIntroBtn"
+            class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emeraldCustom to-blueCustom text-white font-bold text-sm tracking-wide shadow-lg shadow-emeraldCustom/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
+          >
+            <span>🔊 Iniciar historia con sonido</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reproductor del Video de Introducción (Inicialmente oculto) -->
+      <div id="introVideoContainer" class="absolute inset-0 hidden w-full h-full z-10 bg-black">
+        <video 
+          id="introVideo"
+          class="w-full h-full object-cover"
+          src="assets/video/betsabe_espinal.mp4"
+          playsinline
+          preload="auto"
+        ></video>
+        
+        <!-- Botón para Saltar Video -->
+        <button 
+          id="skipIntroBtn"
+          class="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
+        >
+          <span>Saltar</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <!-- ========================================================================= -->
     <!-- SECCIÓN HERO: REPRODUCTOR DE VIDEO INMERSIVO                              -->
     <!-- ========================================================================= -->
@@ -696,34 +759,84 @@
     const pollButtons = document.getElementById('pollButtons');
     const pollFeedback = document.getElementById('pollFeedback');
 
+    // Referencias de la Introducción
+    const introOverlay = document.getElementById('introOverlay');
+    const startIntroBtn = document.getElementById('startIntroBtn');
+    const introStartScreen = document.getElementById('introStartScreen');
+    const introVideoContainer = document.getElementById('introVideoContainer');
+    const introVideo = document.getElementById('introVideo');
+    const skipIntroBtn = document.getElementById('skipIntroBtn');
+
     let activePlaceId = null;
+
+    // Función para iniciar la música de fondo
+    function startBackgroundMusic() {
+      if (bgAudio.currentTime === 0) {
+        bgAudio.currentTime = 119;
+      }
+      bgAudio.play().catch(err => console.log("Error al reproducir audio:", err));
+      
+      soundBtn.classList.add('sound-on');
+      muteIcon.classList.add('hidden');
+      volumeIcon.classList.remove('hidden');
+      soundTooltip.textContent = "On";
+      soundTooltip.classList.remove('text-slate-300');
+      soundTooltip.classList.add('text-emeraldCustom');
+    }
+
+    // Función para silenciar la música de fondo
+    function stopBackgroundMusic() {
+      bgAudio.pause();
+      soundBtn.classList.remove('sound-on');
+      muteIcon.classList.remove('hidden');
+      volumeIcon.classList.add('hidden');
+      soundTooltip.textContent = "Muted";
+      soundTooltip.classList.remove('text-emeraldCustom');
+      soundTooltip.classList.add('text-slate-300');
+    }
 
     // Control de Audio de Fondo (wilmar.mpeg)
     soundBtn.addEventListener('click', () => {
       if (bgAudio.paused) {
-        // Empezar en 1:59 (119 segundos) si es el primer inicio
-        if (bgAudio.currentTime === 0) {
-          bgAudio.currentTime = 119;
-        }
-        bgAudio.play().catch(err => console.log("Error al reproducir audio:", err));
-        
-        soundBtn.classList.add('sound-on');
-        muteIcon.classList.add('hidden');
-        volumeIcon.classList.remove('hidden');
-        soundTooltip.textContent = "On";
-        soundTooltip.classList.remove('text-slate-300');
-        soundTooltip.classList.add('text-emeraldCustom');
+        startBackgroundMusic();
       } else {
-        bgAudio.pause();
-        
-        soundBtn.classList.remove('sound-on');
-        muteIcon.classList.remove('hidden');
-        volumeIcon.classList.add('hidden');
-        soundTooltip.textContent = "Muted";
-        soundTooltip.classList.remove('text-emeraldCustom');
-        soundTooltip.classList.add('text-slate-300');
+        stopBackgroundMusic();
       }
     });
+
+    // Control del Video de Introducción (Betsabé Espinal)
+    if (startIntroBtn && introVideo) {
+      startIntroBtn.addEventListener('click', () => {
+        // 1. Ocultar pantalla inicial
+        introStartScreen.classList.add('hidden');
+        // 2. Mostrar contenedor de video
+        introVideoContainer.classList.remove('hidden');
+        // 3. Reproducir con audio activo
+        introVideo.muted = false;
+        introVideo.play().catch(err => {
+          console.log("Error al reproducir video de intro:", err);
+          closeIntro();
+        });
+      });
+
+      function closeIntro() {
+        introVideo.pause();
+        // Animación de salida (fade out)
+        introOverlay.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          introOverlay.style.display = 'none';
+        }, 700);
+
+        // Habilitar de nuevo el scroll de la página
+        document.body.classList.remove('overflow-hidden', 'h-screen');
+
+        // Iniciar la música de fondo automáticamente para dar fluidez
+        startBackgroundMusic();
+      }
+
+      skipIntroBtn.addEventListener('click', closeIntro);
+      introVideo.addEventListener('ended', closeIntro);
+    }
 
     // Bucle personalizado desde 1:59 al finalizar
     bgAudio.addEventListener('ended', () => {

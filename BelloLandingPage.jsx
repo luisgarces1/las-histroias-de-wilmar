@@ -76,24 +76,63 @@ export default function BelloLandingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   
+  // Estados para la Introducción
+  const [showIntro, setShowIntro] = useState(true);
+  const [showIntroVideo, setShowIntroVideo] = useState(false);
+  const [introFading, setIntroFading] = useState(false);
+
   const videoRef = useRef(null);
   const audioRef = useRef(null);
+  const introVideoRef = useRef(null);
+
+  // Función para iniciar la música de fondo
+  const startBackgroundMusic = () => {
+    if (audioRef.current) {
+      if (audioRef.current.currentTime === 0) {
+        audioRef.current.currentTime = 119;
+      }
+      audioRef.current.play().catch(err => console.log("Error al reproducir audio de fondo:", err));
+      setIsMuted(false);
+    }
+  };
 
   // Manejar el toggle del audio de fondo (wilmar.mpeg)
   const toggleSound = () => {
     if (audioRef.current) {
       const isPaused = audioRef.current.paused;
       if (isPaused) {
-        if (audioRef.current.currentTime === 0) {
-          audioRef.current.currentTime = 119;
-        }
-        audioRef.current.play().catch(err => console.log("Error al reproducir audio:", err));
-        setIsMuted(false);
+        startBackgroundMusic();
       } else {
         audioRef.current.pause();
         setIsMuted(true);
       }
     }
+  };
+
+  // Iniciar la reproducción del video de Betsabé Espinal
+  const handleStartIntro = () => {
+    setShowIntroVideo(true);
+    setTimeout(() => {
+      if (introVideoRef.current) {
+        introVideoRef.current.muted = false;
+        introVideoRef.current.play().catch(err => {
+          console.log("Error al reproducir video de intro:", err);
+          handleCloseIntro();
+        });
+      }
+    }, 50);
+  };
+
+  // Cerrar y saltar la intro
+  const handleCloseIntro = () => {
+    if (introVideoRef.current) {
+      introVideoRef.current.pause();
+    }
+    setIntroFading(true);
+    setTimeout(() => {
+      setShowIntro(false);
+      startBackgroundMusic();
+    }, 700);
   };
 
   const handleFormChange = (e) => {
@@ -137,6 +176,18 @@ export default function BelloLandingPage() {
     localStorage.setItem(`voted_place_${activePlace.id}`, option);
     setHasVoted(true);
   };
+
+  // Bloquear scroll mientras la introducción esté activa
+  useEffect(() => {
+    if (showIntro) {
+      document.body.classList.add('overflow-hidden', 'h-screen');
+    } else {
+      document.body.classList.remove('overflow-hidden', 'h-screen');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden', 'h-screen');
+    };
+  }, [showIntro]);
 
   // Prevenir scroll accidental, manejar el bucle del audio y las animaciones al hacer scroll
   useEffect(() => {
@@ -185,7 +236,70 @@ export default function BelloLandingPage() {
       <div className="max-w-md mx-auto min-h-screen flex flex-col bg-[#0B0F19] shadow-2xl relative border-x border-slate-900">
         
         {/* ========================================================== */}
-        <!-- HERO SECTION: VIDEO VERTICAL -->
+        {/* INTRO VIDEO OVERLAY (SPLASH SCREEN)                        */}
+        {/* ========================================================== */}
+        {showIntro && (
+          <div 
+            id="introOverlay" 
+            className={`absolute inset-0 z-50 bg-[#0B0F19] flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${introFading ? 'opacity-0 pointer-events-none' : ''}`}
+          >
+            {/* Pantalla de inicio para permitir sonido */}
+            {!showIntroVideo ? (
+              <div id="introStartScreen" className="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90">
+                <div className="mt-8">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest animate-pulse-slow">
+                    🎥 Presentación Especial
+                  </span>
+                </div>
+                
+                <div className="space-y-4">
+                  <h2 className="text-3xl font-black tracking-tight text-white leading-tight">
+                    Betsabé Espinal en Bello
+                  </h2>
+                  <p className="text-sm text-slate-300 font-light max-w-xs mx-auto leading-relaxed">
+                    Una historia inspiradora de lucha y liderazgo en nuestro municipio. Descubre el legado.
+                  </p>
+                </div>
+
+                <div className="mb-12">
+                  <button 
+                    onClick={handleStartIntro}
+                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
+                  >
+                    <span>🔊 Iniciar historia con sonido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Reproductor del Video de Introducción */
+              <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black">
+                <video 
+                  ref={introVideoRef}
+                  className="w-full h-full object-cover"
+                  src="/assets/video/betsabe_espinal.mp4"
+                  playsInline
+                  onEnded={handleCloseIntro}
+                ></video>
+                
+                <button 
+                  onClick={handleCloseIntro}
+                  className="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
+                >
+                  <span>Saltar</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ========================================================== */}
+        {/* HERO SECTION: VIDEO VERTICAL */}
         {/* ========================================================== */}
         <section className="h-[100dvh] w-full relative overflow-hidden flex flex-col justify-between bg-cover bg-center" style={{ backgroundImage: "url('/assets/images/vista_aerea_bello_mejorada.png')" }}>
           {/* Video en bucle */}
