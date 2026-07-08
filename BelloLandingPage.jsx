@@ -334,104 +334,6 @@ export default function BelloLandingPage() {
         </section>
 
         {/* ========================================================== */}
-        {/* SECCIÓN DE PROPUESTAS (CON ANIMACIONES AL HACER SCROLL) */}
-        {/* ========================================================== */}
-        <section id="proposals" className="py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden scroll-mt-2">
-          {/* Brillo sutil de fondo */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/5 rounded-full blur-[90px] pointer-events-none" />
-
-          {/* Cabecera de la sección */}
-          <div className="mb-8 relative z-10 reveal-on-scroll">
-            <h3 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-1 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> Propuestas Comunitarias
-            </h3>
-            <h2 className="text-2xl font-black text-white tracking-tight leading-none">
-              Nuestras Ideas para Bello
-            </h2>
-            <p className="text-xs text-slate-400 mt-2">
-              Construyendo un mejor municipio a través de compromisos reales y viñetas claras.
-            </p>
-          </div>
-
-          {/* Lista de Propuestas */}
-          <div className="space-y-4 relative z-10">
-            
-            {/* Propuesta 1 */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '50ms' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🎓</span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Educación y Oportunidades</h4>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Cursos digitales y talleres de emprendimiento para jóvenes en barrios.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Acceso gratuito a capacitaciones técnicas en alianza con el sector local.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Propuesta 2 */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '100ms' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🌱</span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Bello Verde y Sostenible</h4>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Recuperación ecológica de senderos turísticos en el Cerro Quitasol.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Siembras de árboles nativos y cuidado del patrimonio natural hídrico.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Propuesta 3 */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🛡️</span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Comunidad Segura</h4>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Instalación de iluminación LED moderna en parques y zonas de tránsito peatonal.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Redes de comunicación vecinal activas para la prevención ciudadana.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Propuesta 4 */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '200ms' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🚀</span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Cultura e Identidad</h4>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Eventos culturales y artísticos al aire libre en espacios comunitarios.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Preservación activa del patrimonio y la memoria histórica de Bello.</span>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ========================================================== */}
         {/* SECCIÓN: FORMULARIO DE CAPTURA DE DATOS */}
         {/* ========================================================== */}
         <section id="capture-form" className="py-12 px-5 bg-[#0B0F19] relative border-t border-white/5 scroll-mt-2">
@@ -545,6 +447,104 @@ export default function BelloLandingPage() {
             )}
 
           </div>
+        </section>
+
+        {/* ========================================================== */}
+        {/* SECCIÓN DE PROPUESTAS (CON ANIMACIONES AL HACER SCROLL) */}
+        {/* ========================================================== */}
+        <section id="proposals" className="py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden scroll-mt-2">
+          {/* Brillo sutil de fondo */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/5 rounded-full blur-[90px] pointer-events-none" />
+
+          {/* Cabecera de la sección */}
+          <div className="mb-8 relative z-10 reveal-on-scroll">
+            <h3 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> Propuestas Comunitarias
+            </h3>
+            <h2 className="text-2xl font-black text-white tracking-tight leading-none">
+              Nuestras Ideas para Bello
+            </h2>
+            <p className="text-xs text-slate-400 mt-2">
+              Construyendo un mejor municipio a través de compromisos reales y viñetas claras.
+            </p>
+          </div>
+
+          {/* Lista de Propuestas */}
+          <div className="space-y-4 relative z-10">
+            
+            {/* Propuesta 1 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '50ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🎓</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Educación y Oportunidades</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Cursos digitales y talleres de emprendimiento para jóvenes en barrios.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Acceso gratuito a capacitaciones técnicas en alianza con el sector local.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 2 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '100ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🌱</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Bello Verde y Sostenible</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Recuperación ecológica de senderos turísticos en el Cerro Quitasol.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Siembras de árboles nativos y cuidado del patrimonio natural hídrico.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 3 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🛡️</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Comunidad Segura</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Instalación de iluminación LED moderna en parques y zonas de tránsito peatonal.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Redes de comunicación vecinal activas para la prevención ciudadana.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Propuesta 4 */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '200ms' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base font-bold">🚀</span>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">Cultura e Identidad</h4>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-300 font-light font-sans">
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Eventos culturales y artísticos al aire libre en espacios comunitarios.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Preservación activa del patrimonio y la memoria histórica de Bello.</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
 
           {/* Footer de la página */}
           <footer className="mt-12 text-center relative z-10 border-t border-white/5 pt-8">
@@ -558,7 +558,7 @@ export default function BelloLandingPage() {
         </section>
 
         {/* ========================================================== */}
-        <!-- DYNAMIC MODAL & SURVEY -->
+        {/* DYNAMIC MODAL & SURVEY */}
         {/* ========================================================== */}
         <div
           className={`fixed inset-0 z-50 flex items-end justify-center bg-black/70 transition-opacity duration-300 ${
