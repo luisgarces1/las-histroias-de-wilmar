@@ -67,9 +67,8 @@ const PLACES_DATA = [
 
 // Lista de Videos de "Las Historias de Wilmar" (Aleatorios)
 const WILMAR_STORIES_LIST = [
-  "/assets/video/La_huelga_de_Bello_de_1920.mp4",
-  "/assets/video/video-bello.mp4"
-  // El usuario puede agregar más rutas de video aquí
+  "/assets/video/La_Huelga_de_Bello_de_1920 ampliado.mp4",
+  "/assets/video/La_huelga_de_Bello_de_1920.mp4"
 ];
 
 export default function BelloLandingPage() {
