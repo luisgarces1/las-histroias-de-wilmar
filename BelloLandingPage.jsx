@@ -65,12 +65,47 @@ const PLACES_DATA = [
   }
 ];
 
+// Lista de Videos de "Las Historias de Wilmar" (Aleatorios)
+const WILMAR_STORIES_LIST = [
+  "/assets/video/La_huelga_de_Bello_de_1920.mp4",
+  "/assets/video/video-bello.mp4"
+  // El usuario puede agregar más rutas de video aquí
+];
+
 export default function BelloLandingPage() {
   const [isMuted, setIsMuted] = useState(true);
   const [activePlace, setActivePlace] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+  // Estados para "Las Historias de Wilmar"
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
+  const storyVideoRef = useRef(null);
+
+  const handleNextStory = () => {
+    if (WILMAR_STORIES_LIST.length <= 1) {
+      if (storyVideoRef.current) {
+        storyVideoRef.current.currentTime = 0;
+        storyVideoRef.current.play().catch(err => console.log("Error al reproducir historia:", err));
+      }
+      return;
+    }
+
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * WILMAR_STORIES_LIST.length);
+    } while (randomIndex === currentStoryIndex);
+
+    setCurrentStoryIndex(randomIndex);
+  };
+
+  useEffect(() => {
+    if (storyVideoRef.current && currentStoryIndex !== 0) {
+      storyVideoRef.current.load();
+      storyVideoRef.current.play().catch(err => console.log("Error al reproducir siguiente historia:", err));
+    }
+  }, [currentStoryIndex]);
+
   // Estados para captura de datos
   const [formData, setFormData] = useState({ voterName: '', voterPhone: '', voterNeighborhood: '', voterMessage: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -396,17 +431,59 @@ export default function BelloLandingPage() {
                 ¿Sabías que Bello tiene historias que desafían el tiempo?
               </h1>
               <p className="text-sm text-slate-300 mt-2 max-w-xs mx-auto font-light">
-                Escucha la historia en video arriba o explora los lugares históricos a continuación.
+                Escucha la historia en videos y explora los lugares históricos a continuación.
               </p>
             </div>
 
             <a
-              href="#explore"
+              href="#stories"
               className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-center flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200"
             >
               <span>🔍 Descubre la historia oculta de Bello</span>
               <ChevronDown className="w-4 h-4 animate-bounce" />
             </a>
+          </div>
+        </section>
+
+        {/* ========================================================== */}
+        {/* SECCIÓN: LAS HISTORIAS DE WILMAR (VIDEOS REPRODUCTOR)      */}
+        {/* ========================================================== */}
+        <section id="stories" className="py-10 px-5 bg-[#0B0F19] relative border-t border-white/5 scroll-mt-2">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500/5 rounded-full blur-[60px] pointer-events-none" />
+
+          <div className="mb-6 relative z-10">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20 mb-2 uppercase tracking-wider">
+              <Sparkles className="w-3 h-3" /> Serie de Videos
+            </span>
+            <h2 className="text-2xl font-black text-white tracking-tight leading-none">
+              Las Historias de Wilmar
+            </h2>
+            <p className="text-xs text-slate-400 mt-2">
+              Descubre diferentes relatos y curiosidades narradas en video.
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl relative z-10 p-2">
+            <div className="relative aspect-video bg-black rounded-xl overflow-hidden">
+              <video 
+                ref={storyVideoRef}
+                className="w-full h-full object-cover"
+                src={WILMAR_STORIES_LIST[currentStoryIndex]}
+                controls
+                playsInline
+                preload="metadata"
+              />
+            </div>
+
+            <div className="mt-4 pb-2 flex justify-center">
+              <button 
+                onClick={handleNextStory}
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center gap-2"
+              >
+                <span>Mirar siguiente historia</span>
+                <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
+              </button>
+            </div>
           </div>
         </section>
 
