@@ -432,7 +432,7 @@ export default function BelloLandingPage() {
         </section>
 
         {/* ========================================================== */}
-        <!-- CONTENIDO INTERACTIVO: BENTO GRID -->
+        {/* CONTENIDO INTERACTIVO: BENTO GRID */}
         {/* ========================================================== */}
         <section id="explore" className="py-10 px-5 bg-gradient-to-b from-[#0B0F19] to-[#05080E] relative border-t border-white/5 scroll-mt-2">
           {/* Brillos ambientales de fondo */}
