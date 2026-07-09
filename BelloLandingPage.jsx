@@ -220,20 +220,8 @@ export default function BelloLandingPage() {
     };
   }, [showIntro]);
 
-  // Prevenir scroll accidental, manejar el bucle del audio y las animaciones al hacer scroll
+  // Prevenir scroll accidental y manejar las animaciones al hacer scroll
   useEffect(() => {
-    const audioEl = audioRef.current;
-    const handleAudioEnded = () => {
-      if (audioEl) {
-        audioEl.currentTime = 119;
-        audioEl.play().catch(err => console.log("Error al reiniciar bucle de audio:", err));
-      }
-    };
-
-    if (audioEl) {
-      audioEl.addEventListener('ended', handleAudioEnded);
-    }
-
     // Intersection Observer para Animaciones al hacer Scroll
     const observerOptions = {
       threshold: 0.1,
@@ -254,9 +242,6 @@ export default function BelloLandingPage() {
 
     return () => {
       document.body.style.overflow = 'unset';
-      if (audioEl) {
-        audioEl.removeEventListener('ended', handleAudioEnded);
-      }
       observer.disconnect();
     };
   }, []);
@@ -305,13 +290,13 @@ export default function BelloLandingPage() {
                   </p>
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24 flex justify-center">
                   <button 
                     onClick={handleActivateSound}
-                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
+                    className="px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-xs tracking-wide shadow-md shadow-emerald-500/20 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
                   >
                     <span>🔊 Activar sonido</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                   </button>
