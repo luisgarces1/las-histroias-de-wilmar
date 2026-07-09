@@ -78,12 +78,31 @@ export default function BelloLandingPage() {
   
   // Estados para la Introducción
   const [showIntro, setShowIntro] = useState(true);
-  const [showIntroVideo, setShowIntroVideo] = useState(false);
+  const [showIntroStartScreen, setShowIntroStartScreen] = useState(true);
   const [introFading, setIntroFading] = useState(false);
 
   const videoRef = useRef(null);
   const audioRef = useRef(null);
   const introVideoRef = useRef(null);
+
+  // Autoplay con fallback silencioso al cargar la página en React
+  useEffect(() => {
+    if (showIntro && introVideoRef.current) {
+      introVideoRef.current.muted = false;
+      introVideoRef.current.play()
+        .then(() => {
+          // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
+          setShowIntroStartScreen(false);
+        })
+        .catch(err => {
+          console.log("React Autoplay con sonido bloqueado. Reproduciendo en silencio...");
+          if (introVideoRef.current) {
+            introVideoRef.current.muted = true;
+            introVideoRef.current.play().catch(e => console.log("Error de autoplay silencioso en React:", e));
+          }
+        });
+    }
+  }, [showIntro]);
 
   // Función para iniciar la música de fondo
   const startBackgroundMusic = () => {
@@ -109,28 +128,32 @@ export default function BelloLandingPage() {
     }
   };
 
-  // Iniciar la reproducción del video de Betsabé Espinal
-  const handleStartIntro = () => {
-    setShowIntroVideo(true);
-    setTimeout(() => {
-      if (introVideoRef.current) {
-        introVideoRef.current.muted = false;
-        introVideoRef.current.play().catch(err => {
-          console.log("Error al reproducir video de intro:", err);
-          handleCloseIntro();
-        });
-      }
-    }, 50);
+  // Iniciar la reproducción con sonido (desmutear) y ocultar pantalla de inicio
+  const handleActivateSound = () => {
+    setShowIntroStartScreen(false);
+    if (introVideoRef.current) {
+      introVideoRef.current.muted = false;
+      introVideoRef.current.play().catch(err => {
+        console.log("Error al reproducir video de intro con sonido:", err);
+        handleCloseIntro();
+      });
+    }
   };
 
   // Cerrar y saltar la intro
   const handleCloseIntro = () => {
+    let playedWithSound = false;
     if (introVideoRef.current) {
+      playedWithSound = !introVideoRef.current.muted;
       introVideoRef.current.pause();
     }
     setIntroFading(true);
     setTimeout(() => {
       setShowIntro(false);
+      // Si el usuario activó el sonido durante la intro, iniciar música de fondo automáticamente
+      if (playedWithSound) {
+        startBackgroundMusic();
+      }
     }, 700);
   };
 
@@ -242,8 +265,31 @@ export default function BelloLandingPage() {
             id="introOverlay" 
             className={`fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${introFading ? 'opacity-0 pointer-events-none' : ''}`}
           >
-            {/* Pantalla de inicio para permitir sonido */}
-            {!showIntroVideo ? (
+            {/* Reproductor del Video de Introducción (Visible de inmediato para autoplay) */}
+            <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
+              <video 
+                ref={introVideoRef}
+                className="w-full h-full object-contain"
+                src="/assets/video/La_huelga_de_Bello_de_1920.mp4"
+                playsInline
+                autoPlay
+                muted
+                onEnded={handleCloseIntro}
+              ></video>
+              
+              <button 
+                onClick={handleCloseIntro}
+                className="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
+              >
+                <span>Saltar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            {/* Pantalla de inicio para permitir sonido, superpuesta */}
+            {showIntroStartScreen && (
               <div id="introStartScreen" className="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90 w-full max-w-md mx-auto">
                 <div className="mt-8">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest animate-pulse-slow">
@@ -262,36 +308,15 @@ export default function BelloLandingPage() {
 
                 <div className="mb-12">
                   <button 
-                    onClick={handleStartIntro}
+                    onClick={handleActivateSound}
                     className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
                   >
-                    <span>🔊 Iniciar historia con sonido</span>
+                    <span>🔊 Activar sonido</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                   </button>
                 </div>
-              </div>
-            ) : (
-              /* Reproductor del Video de Introducción */
-              <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-                <video 
-                  ref={introVideoRef}
-                  className="w-full h-full object-contain"
-                  src="/assets/video/La_huelga_de_Bello_de_1920.mp4"
-                  playsInline
-                  onEnded={handleCloseIntro}
-                ></video>
-                
-                <button 
-                  onClick={handleCloseIntro}
-                  className="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
-                >
-                  <span>Saltar</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </button>
               </div>
             )}
           </div>
