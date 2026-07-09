@@ -77,18 +77,27 @@ export default function BelloLandingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   // Estados para la Introducción
-  const [showIntro, setShowIntro] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('hasSeenIntro') !== 'true';
-    }
-    return true;
-  });
+  const [showIntro, setShowIntro] = useState(true);
   const [showIntroStartScreen, setShowIntroStartScreen] = useState(true);
   const [introFading, setIntroFading] = useState(false);
 
   const videoRef = useRef(null);
   const audioRef = useRef(null);
   const introVideoRef = useRef(null);
+
+  // Inicialización de la intro y soporte para ?forceIntro=true
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('forceIntro') === 'true') {
+        sessionStorage.removeItem('hasSeenIntro');
+      }
+      
+      if (sessionStorage.getItem('hasSeenIntro') === 'true') {
+        setShowIntro(false);
+      }
+    }
+  }, []);
 
   // Autoplay con fallback silencioso al cargar la página en React
   useEffect(() => {

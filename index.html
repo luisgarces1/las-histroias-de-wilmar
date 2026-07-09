@@ -808,6 +808,12 @@
 
     // Control del Video de Introducción (Betsabé Espinal)
     if (startIntroBtn && introVideo) {
+      // Permitir forzar la intro con el parámetro URL ?forceIntro=true para pruebas
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('forceIntro') === 'true') {
+        sessionStorage.removeItem('hasSeenIntro');
+      }
+
       // Comprobar si ya se vio la intro en esta sesión
       if (sessionStorage.getItem('hasSeenIntro') === 'true') {
         introOverlay.style.display = 'none';
