@@ -124,7 +124,7 @@
         </div>
 
         <!-- Botón para Iniciar con Sonido -->
-        <div class="mb-12">
+        <div class="mb-24">
           <button 
             id="startIntroBtn"
             class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emeraldCustom to-blueCustom text-white font-bold text-sm tracking-wide shadow-lg shadow-emeraldCustom/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
@@ -148,18 +148,18 @@
           playsinline
           preload="auto"
         ></video>
-        
-        <!-- Botón para Saltar Video -->
-        <button 
-          id="skipIntroBtn"
-          class="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
-        >
-          <span>Saltar</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
       </div>
+
+      <!-- Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) -->
+      <button 
+        id="skipIntroBtn"
+        class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emeraldCustom/95 to-blueCustom/95 hover:from-emeraldCustom hover:to-blueCustom text-white font-bold text-sm tracking-wide shadow-lg shadow-emeraldCustom/25 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap border border-white/10"
+      >
+        <span>Ver más historias de Wilmar</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
 
     <!-- ========================================================================= -->
@@ -808,19 +808,26 @@
 
     // Control del Video de Introducción (Betsabé Espinal)
     if (startIntroBtn && introVideo) {
-      // Intentar reproducir automáticamente con sonido
-      introVideo.muted = false;
-      introVideo.play()
-        .then(() => {
-          // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
-          introStartScreen.classList.add('hidden');
-        })
-        .catch(err => {
-          // Autoplay con sonido bloqueado: reproducimos en silencio
-          console.log("Autoplay con sonido bloqueado por el navegador. Reproduciendo en silencio...");
-          introVideo.muted = true;
-          introVideo.play().catch(e => console.log("Error de autoplay silencioso:", e));
-        });
+      // Comprobar si ya se vio la intro en esta sesión
+      if (sessionStorage.getItem('hasSeenIntro') === 'true') {
+        introOverlay.style.display = 'none';
+        document.body.classList.remove('overflow-hidden', 'h-screen');
+        introVideo.pause();
+      } else {
+        // Intentar reproducir automáticamente con sonido
+        introVideo.muted = false;
+        introVideo.play()
+          .then(() => {
+            // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
+            introStartScreen.classList.add('hidden');
+          })
+          .catch(err => {
+            // Autoplay con sonido bloqueado: reproducimos en silencio
+            console.log("Autoplay con sonido bloqueado por el navegador. Reproduciendo en silencio...");
+            introVideo.muted = true;
+            introVideo.play().catch(e => console.log("Error de autoplay silencioso:", e));
+          });
+      }
 
       startIntroBtn.addEventListener('click', () => {
         // 1. Ocultar pantalla inicial
@@ -837,6 +844,9 @@
 
       function closeIntro() {
         introVideo.pause();
+        // Guardar que ya se vio la intro en esta sesión para que no vuelva a aparecer
+        sessionStorage.setItem('hasSeenIntro', 'true');
+
         // Animación de salida (fade out)
         introOverlay.classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => {

@@ -77,7 +77,12 @@ export default function BelloLandingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   // Estados para la Introducción
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('hasSeenIntro') !== 'true';
+    }
+    return true;
+  });
   const [showIntroStartScreen, setShowIntroStartScreen] = useState(true);
   const [introFading, setIntroFading] = useState(false);
 
@@ -148,6 +153,10 @@ export default function BelloLandingPage() {
       introVideoRef.current.pause();
     }
     setIntroFading(true);
+    // Guardar que ya se vio la intro en esta sesión
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('hasSeenIntro', 'true');
+    }
     setTimeout(() => {
       setShowIntro(false);
       // Si el usuario activó el sonido durante la intro, iniciar música de fondo automáticamente
@@ -276,16 +285,6 @@ export default function BelloLandingPage() {
                 muted
                 onEnded={handleCloseIntro}
               ></video>
-              
-              <button 
-                onClick={handleCloseIntro}
-                className="absolute top-4 right-4 z-30 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/10 active:scale-95 transition-all shadow-lg flex items-center gap-1.5"
-              >
-                <span>Saltar</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
             </div>
 
             {/* Pantalla de inicio para permitir sonido, superpuesta */}
@@ -306,7 +305,7 @@ export default function BelloLandingPage() {
                   </p>
                 </div>
 
-                <div className="mb-12">
+                <div className="mb-24">
                   <button 
                     onClick={handleActivateSound}
                     className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-3"
@@ -319,6 +318,17 @@ export default function BelloLandingPage() {
                 </div>
               </div>
             )}
+
+            {/* Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) */}
+            <button 
+              onClick={handleCloseIntro}
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/95 to-blue-500/95 hover:from-emerald-500 hover:to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap border border-white/10"
+            >
+              <span>Ver más historias de Wilmar</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
           </div>
         )}
 
