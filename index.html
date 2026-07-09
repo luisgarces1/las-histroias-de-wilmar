@@ -808,32 +808,19 @@
 
     // Control del Video de Introducción (Betsabé Espinal)
     if (startIntroBtn && introVideo) {
-      // Permitir forzar la intro con el parámetro URL ?forceIntro=true para pruebas
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('forceIntro') === 'true') {
-        sessionStorage.removeItem('hasSeenIntro');
-      }
-
-      // Comprobar si ya se vio la intro en esta sesión
-      if (sessionStorage.getItem('hasSeenIntro') === 'true') {
-        introOverlay.style.display = 'none';
-        document.body.classList.remove('overflow-hidden', 'h-screen');
-        introVideo.pause();
-      } else {
-        // Intentar reproducir automáticamente con sonido
-        introVideo.muted = false;
-        introVideo.play()
-          .then(() => {
-            // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
-            introStartScreen.classList.add('hidden');
-          })
-          .catch(err => {
-            // Autoplay con sonido bloqueado: reproducimos en silencio
-            console.log("Autoplay con sonido bloqueado por el navegador. Reproduciendo en silencio...");
-            introVideo.muted = true;
-            introVideo.play().catch(e => console.log("Error de autoplay silencioso:", e));
-          });
-      }
+      // Intentar reproducir automáticamente con sonido
+      introVideo.muted = false;
+      introVideo.play()
+        .then(() => {
+          // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
+          introStartScreen.classList.add('hidden');
+        })
+        .catch(err => {
+          // Autoplay con sonido bloqueado: reproducimos en silencio
+          console.log("Autoplay con sonido bloqueado por el navegador. Reproduciendo en silencio...");
+          introVideo.muted = true;
+          introVideo.play().catch(e => console.log("Error de autoplay silencioso:", e));
+        });
 
       startIntroBtn.addEventListener('click', () => {
         // 1. Ocultar pantalla inicial
@@ -850,8 +837,6 @@
 
       function closeIntro() {
         introVideo.pause();
-        // Guardar que ya se vio la intro en esta sesión para que no vuelva a aparecer
-        sessionStorage.setItem('hasSeenIntro', 'true');
 
         // Animación de salida (fade out)
         introOverlay.classList.add('opacity-0', 'pointer-events-none');

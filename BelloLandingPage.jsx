@@ -85,19 +85,7 @@ export default function BelloLandingPage() {
   const audioRef = useRef(null);
   const introVideoRef = useRef(null);
 
-  // Inicialización de la intro y soporte para ?forceIntro=true
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('forceIntro') === 'true') {
-        sessionStorage.removeItem('hasSeenIntro');
-      }
-      
-      if (sessionStorage.getItem('hasSeenIntro') === 'true') {
-        setShowIntro(false);
-      }
-    }
-  }, []);
+
 
   // Autoplay con fallback silencioso al cargar la página en React
   useEffect(() => {
@@ -162,10 +150,7 @@ export default function BelloLandingPage() {
       introVideoRef.current.pause();
     }
     setIntroFading(true);
-    // Guardar que ya se vio la intro en esta sesión
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('hasSeenIntro', 'true');
-    }
+
     setTimeout(() => {
       setShowIntro(false);
       // Si el usuario activó el sonido durante la intro, iniciar música de fondo automáticamente
