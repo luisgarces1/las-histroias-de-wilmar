@@ -69,8 +69,7 @@ const PLACES_DATA = [
 const WILMAR_STORIES_LIST = [
   "/assets/video/talleres del ferrocarril.mp4",
   "/assets/video/La_Huelga_de_Bello_de_1920 ampliado.mp4",
-  "/assets/video/marco fidel.mp4",
-  "/assets/video/La_huelga_de_Bello_de_1920.mp4"
+  "/assets/video/marco fidel.mp4"
 ];
 
 export default function BelloLandingPage() {
@@ -300,7 +299,7 @@ export default function BelloLandingPage() {
               <video 
                 ref={introVideoRef}
                 className="w-full h-full object-contain"
-                src="/assets/video/La_huelga_de_Bello_de_1920.mp4"
+                src="/assets/video/betsabet.mp4"
                 playsInline
                 autoPlay
                 muted
