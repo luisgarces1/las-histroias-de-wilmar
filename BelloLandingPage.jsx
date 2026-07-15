@@ -656,7 +656,7 @@ export default function BelloLandingPage() {
         {/* ========================================================== */}
         {/* SECCIÓN DE PROPUESTAS (CON ANIMACIONES AL HACER SCROLL) */}
         {/* ========================================================== */}
-        <section id="proposals" className="py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden scroll-mt-2">
+        <section id="proposals" className="hidden py-12 px-5 bg-gradient-to-b from-[#05080E] to-[#0B0F19] relative border-t border-white/5 overflow-hidden scroll-mt-2">
           {/* Brillo sutil de fondo */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/5 rounded-full blur-[90px] pointer-events-none" />
 
