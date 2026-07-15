@@ -46,7 +46,7 @@ const PLACES_DATA = [
     title: "Ferrocarril de Antioquia",
     subtitle: "Conexión y Progreso",
     tag: "Progreso",
-    image: "/assets/images/ferrocarril_antioquia.png",
+    image: "/assets/images/ferrocarril_antioquia.jpg",
     description: "La antigua Estación Bello y sus talleres mecánicos adyacentes fueron el corazón de la revolución industrial en Antioquia a principios del siglo XX. Por estas vías se transportaron las mercancías y el café que abrieron la economía antioqueña al comercio internacional, impulsando la fundación de industrias textileras.",
     funFact: "Los talleres mecánicos de Bello contaban con tecnología tan avanzada que allí mismo se ensamblaban y reparaban piezas gigantescas de trenes de vapor.",
     colSpan: "col-span-1",
