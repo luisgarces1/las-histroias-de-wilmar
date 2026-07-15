@@ -627,7 +627,7 @@
         Diseñado con ❤️ por y para Bello, Antioquia.
       </p>
       <p class="text-[10px] text-slate-600 mt-1 uppercase tracking-widest">
-        Experiencia Interactiva No Partidaria • 2026
+        Experiencia Interactiva • 2026
       </p>
     </footer>
 
@@ -721,6 +721,12 @@
   <!-- SCRIPT DE LOGICA E INTERACTIVIDAD                                        -->
   <!-- ========================================================================= -->
   <script>
+    // Forzar que la página empiece arriba al refrescar
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     // Datos dinámicos para los sitios de Bello
     const placesData = {
       1: {
@@ -862,6 +868,9 @@
 
         // Habilitar de nuevo el scroll de la página
         document.body.classList.remove('overflow-hidden', 'h-screen');
+
+        // Forzar scroll al inicio de la página
+        window.scrollTo(0, 0);
 
         // Si el usuario había activado el sonido de la intro, activar música de fondo automáticamente
         if (!introVideo.muted) {

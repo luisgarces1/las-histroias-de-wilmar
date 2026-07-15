@@ -188,6 +188,7 @@ export default function BelloLandingPage() {
 
     setTimeout(() => {
       setShowIntro(false);
+      window.scrollTo(0, 0);
       // Si el usuario activó el sonido durante la intro, iniciar música de fondo automáticamente
       if (playedWithSound) {
         startBackgroundMusic();
@@ -251,6 +252,11 @@ export default function BelloLandingPage() {
 
   // Prevenir scroll accidental y manejar las animaciones al hacer scroll
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     // Intersection Observer para Animaciones al hacer Scroll
     const observerOptions = {
       threshold: 0.1,
@@ -758,7 +764,7 @@ export default function BelloLandingPage() {
             Diseñado con <Heart className="w-3 h-3 text-emerald-500 inline-block align-middle" /> por y para Bello, Antioquia.
           </p>
           <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold font-sans">
-            Experiencia Interactiva No Partidaria • 2026
+            Experiencia Interactiva • 2026
           </p>
         </footer>
 
