@@ -68,6 +68,7 @@ const PLACES_DATA = [
 // Lista de Videos de "Las Historias de Wilmar" (Aleatorios)
 const WILMAR_STORIES_LIST = [
   "/assets/video/talleres del ferrocarril.mp4",
+  "/assets/video/Historia_Parque_Fabricato.mp4",
   "/assets/video/La_Huelga_de_Bello_de_1920 ampliado.mp4",
   "/assets/video/marco fidel.mp4"
 ];
