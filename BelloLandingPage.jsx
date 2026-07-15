@@ -750,16 +750,17 @@ export default function BelloLandingPage() {
 
           </div>
 
-          {/* Footer de la página */}
-          <footer className="mt-12 text-center relative z-10 border-t border-white/5 pt-8">
-            <p className="text-xs text-slate-400 font-light font-sans">
-              Diseñado con <Heart className="w-3 h-3 text-emerald-500 inline-block align-middle" /> por y para Bello, Antioquia.
-            </p>
-            <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold font-sans">
-              Experiencia Interactiva No Partidaria • 2026
-            </p>
-          </footer>
         </section>
+
+        {/* Footer de la página */}
+        <footer className="mt-12 text-center relative z-10 border-t border-white/5 pt-8 pb-8">
+          <p className="text-xs text-slate-400 font-light font-sans">
+            Diseñado con <Heart className="w-3 h-3 text-emerald-500 inline-block align-middle" /> por y para Bello, Antioquia.
+          </p>
+          <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold font-sans">
+            Experiencia Interactiva No Partidaria • 2026
+          </p>
+        </footer>
 
         {/* ========================================================== */}
         {/* DYNAMIC MODAL & SURVEY */}
