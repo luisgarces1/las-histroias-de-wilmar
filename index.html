@@ -185,8 +185,8 @@
         preload="auto">
       </video>
 
-      <!-- Elemento de Audio de Fondo (wilmar.mpeg) -->
-      <audio id="bgAudio" src="assets/audio/wilmar.mpeg" preload="auto"></audio>
+      <!-- Elemento de Audio de Fondo (himno_de_bello.mp3) -->
+      <audio id="bgAudio" src="assets/audio/himno_de_bello.mp3" preload="auto"></audio>
 
       <!-- Overlay Oscuro Superior e Inferior para legibilidad del texto -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10 pointer-events-none"></div>
@@ -820,7 +820,7 @@
     // Función para iniciar la música de fondo
     function startBackgroundMusic() {
       if (bgAudio.currentTime === 0) {
-        bgAudio.currentTime = 119;
+        bgAudio.currentTime = 102;
       }
       bgAudio.play().catch(err => console.log("Error al reproducir audio:", err));
       

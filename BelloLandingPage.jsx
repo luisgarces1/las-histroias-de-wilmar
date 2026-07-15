@@ -145,7 +145,7 @@ export default function BelloLandingPage() {
   const startBackgroundMusic = () => {
     if (audioRef.current) {
       if (audioRef.current.currentTime === 0) {
-        audioRef.current.currentTime = 119;
+        audioRef.current.currentTime = 102;
       }
       audioRef.current.play().catch(err => console.log("Error al reproducir audio de fondo:", err));
       setIsMuted(false);
@@ -363,10 +363,10 @@ export default function BelloLandingPage() {
             preload="auto"
           />
 
-          {/* Audio de Fondo (wilmar.mpeg) */}
+          {/* Audio de Fondo (himno_de_bello.mp3) */}
           <audio
             ref={audioRef}
-            src="/assets/audio/wilmar.mpeg"
+            src="/assets/audio/himno_de_bello.mp3"
             preload="auto"
           />
 
