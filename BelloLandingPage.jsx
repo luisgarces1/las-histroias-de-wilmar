@@ -35,7 +35,7 @@ const PLACES_DATA = [
     title: "Choza de Marco Fidel Suárez",
     subtitle: "Orgullo Histórico",
     tag: "Orgullo",
-    image: "/assets/images/choza_marco_fidel.png",
+    image: "/assets/images/chozachoza_marco_fidel.png",
     description: "Esta humilde cabaña de paredes de bahareque y techo de paja vio nacer y crecer a Marco Fidel Suárez, quien llegó a convertirse en Presidente de la República de Colombia entre 1918 y 1921. Hoy se conserva protegida dentro de una imponente estructura de vidrio que funciona como monumento nacional y museo en el corazón del municipio.",
     funFact: "Al no tener dinero para libros, Marco Fidel Suárez estudiaba mirando los textos a través de la ventana de una escuela local, demostrando una voluntad indomable.",
     colSpan: "col-span-1",
