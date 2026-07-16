@@ -115,33 +115,28 @@ export default function BelloLandingPage() {
   
   // Estados para la Introducción
   const [showIntro, setShowIntro] = useState(true);
-  const [showIntroStartScreen, setShowIntroStartScreen] = useState(true);
   const [introFading, setIntroFading] = useState(false);
+  const [introMuted, setIntroMuted] = useState(true);
 
   const videoRef = useRef(null);
   const audioRef = useRef(null);
   const introVideoRef = useRef(null);
 
-
-
-  // Autoplay con fallback silencioso al cargar la página en React
+  // Autoplay silencioso al cargar la página en React (permitido por las políticas de los navegadores)
   useEffect(() => {
     if (showIntro && introVideoRef.current) {
-      introVideoRef.current.muted = false;
-      introVideoRef.current.play()
-        .then(() => {
-          // Autoplay con sonido exitoso: ocultamos la pantalla de inicio
-          setShowIntroStartScreen(false);
-        })
-        .catch(err => {
-          console.log("React Autoplay con sonido bloqueado. Reproduciendo en silencio...");
-          if (introVideoRef.current) {
-            introVideoRef.current.muted = true;
-            introVideoRef.current.play().catch(e => console.log("Error de autoplay silencioso en React:", e));
-          }
-        });
+      introVideoRef.current.muted = true;
+      introVideoRef.current.play().catch(e => console.log("Error de autoplay silencioso en React:", e));
     }
   }, [showIntro]);
+
+  const toggleIntroSound = () => {
+    if (introVideoRef.current) {
+      const nextMuted = !introVideoRef.current.muted;
+      introVideoRef.current.muted = nextMuted;
+      setIntroMuted(nextMuted);
+    }
+  };
 
   // Función para iniciar la música de fondo
   const startBackgroundMusic = () => {
@@ -167,17 +162,7 @@ export default function BelloLandingPage() {
     }
   };
 
-  // Iniciar la reproducción con sonido (desmutear) y ocultar pantalla de inicio
-  const handleActivateSound = () => {
-    setShowIntroStartScreen(false);
-    if (introVideoRef.current) {
-      introVideoRef.current.muted = false;
-      introVideoRef.current.play().catch(err => {
-        console.log("Error al reproducir video de intro con sonido:", err);
-        handleCloseIntro();
-      });
-    }
-  };
+
 
   // Cerrar y saltar la intro
   const handleCloseIntro = () => {
@@ -331,37 +316,18 @@ export default function BelloLandingPage() {
               ></video>
             </div>
 
-            {/* Pantalla de inicio para permitir sonido, superpuesta */}
-            {showIntroStartScreen && (
-              <div id="introStartScreen" className="absolute inset-0 flex flex-col justify-between p-8 text-center z-20 bg-gradient-to-b from-black/40 via-transparent to-black/90 w-full max-w-md mx-auto">
-                <div className="mt-8">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest animate-pulse-slow">
-                    🎥 Presentación Especial
-                  </span>
-                </div>
-                
-                <div className="space-y-4">
-                  <h2 className="text-3xl font-black tracking-tight text-white leading-tight">
-                    La Huelga de Bello de 1920
-                  </h2>
-                  <p className="text-sm text-slate-300 font-light max-w-xs mx-auto leading-relaxed">
-                    La histórica huelga liderada por Betsabé Espinal y las obreras textiles en 1920. Descubre el legado.
-                  </p>
-                </div>
-
-                <div className="mb-24 flex justify-center">
-                  <button 
-                    onClick={handleActivateSound}
-                    className="px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-xs tracking-wide shadow-md shadow-emerald-500/20 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
-                  >
-                    <span>🔊 Activar sonido</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            )}
+            {/* Botón de Silencio Flotante para la Intro */}
+            <button
+              onClick={toggleIntroSound}
+              className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-white active:scale-95 transition-transform shadow-lg"
+              aria-label="Silenciar / Activar sonido"
+            >
+              {introMuted ? (
+                <VolumeX className="w-5 h-5 text-slate-300" />
+              ) : (
+                <Volume2 className="w-5 h-5 text-emerald-500" />
+              )}
+            </button>
 
             {/* Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) */}
             <button 
