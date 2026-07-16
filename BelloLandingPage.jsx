@@ -54,12 +54,12 @@ const PLACES_DATA = [
   },
   {
     id: 4,
-    title: "Quebrada La García",
-    subtitle: "Patrimonio Natural",
+    title: "Páramo de las Baldías",
+    subtitle: "Santuario de Niebla",
     tag: "Naturaleza",
-    image: "/assets/images/quebrada_la_garcia.png",
-    description: "La quebrada La García es el eje hídrico histórico que divide y recorre el casco urbano de Bello. A lo largo de sus orillas se asentaron los primeros barrios industriales y obreros, transformándose en la fuente de agua para las textileras y en el lugar de esparcimiento familiar de generaciones de bellanitas.",
-    funFact: "La García nace en el Alto de Medina a más de 2,400 metros de altura y baja cruzando zonas vírgenes y cascadas antes de atravesar el centro urbano.",
+    image: "/assets/images/paramo_de_las_baldias.png",
+    description: "El Páramo de las Baldías es el área protegida y el páramo más pequeño de Colombia, ubicado en la parte alta de la cordillera que rodea a Bello. Este ecosistema de alta montaña es una fábrica natural de agua que abastece a miles de habitantes, caracterizado por sus frailejones, parajes cubiertos de niebla y una biodiversidad única.",
+    funFact: "A pesar de ser el páramo más pequeño de Colombia, alberga una gran variedad de frailejones y especies endémicas adaptadas al frío y la altura.",
     colSpan: "col-span-2",
     height: "h-40"
   }
