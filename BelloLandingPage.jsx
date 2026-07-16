@@ -277,9 +277,31 @@ export default function BelloLandingPage() {
     const elements = document.querySelectorAll('.reveal-on-scroll');
     elements.forEach(el => observer.observe(el));
 
+    // Observar sección de historias para pausar el himno de fondo al hacer scroll
+    const storiesSection = document.getElementById('stories');
+    let storiesObserver;
+    if (storiesSection) {
+      storiesObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (audioRef.current && !audioRef.current.paused) {
+              audioRef.current.pause();
+              setIsMuted(true);
+            }
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      storiesObserver.observe(storiesSection);
+    }
+
     return () => {
       document.body.style.overflow = 'unset';
       observer.disconnect();
+      if (storiesObserver) {
+        storiesObserver.disconnect();
+      }
     };
   }, []);
 
@@ -445,6 +467,12 @@ export default function BelloLandingPage() {
 
             <a
               href="#stories"
+              onClick={() => {
+                if (audioRef.current && !audioRef.current.paused) {
+                  audioRef.current.pause();
+                  setIsMuted(true);
+                }
+              }}
               className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-center flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200"
             >
               <span>🔍 Descubre la historia oculta de Bello</span>
