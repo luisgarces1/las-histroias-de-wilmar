@@ -319,13 +319,20 @@ export default function BelloLandingPage() {
             {/* Botón de Silencio Flotante para la Intro */}
             <button
               onClick={toggleIntroSound}
-              className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-white active:scale-95 transition-transform shadow-lg"
+              className={`absolute top-6 right-6 z-30 w-11 h-11 rounded-full flex items-center justify-center text-white active:scale-95 transition-all shadow-lg hover:scale-105 ${
+                introMuted
+                  ? 'bg-emerald-500 shadow-emerald-500/30'
+                  : 'bg-blue-500 shadow-blue-500/30'
+              }`}
               aria-label="Silenciar / Activar sonido"
             >
+              {introMuted && (
+                <span className="absolute -inset-1 rounded-full bg-emerald-500/40 animate-ping opacity-75" />
+              )}
               {introMuted ? (
-                <VolumeX className="w-5 h-5 text-slate-300" />
+                <VolumeX className="w-5 h-5 text-white relative z-10" />
               ) : (
-                <Volume2 className="w-5 h-5 text-emerald-500" />
+                <Volume2 className="w-5 h-5 text-white relative z-10" />
               )}
             </button>
 
