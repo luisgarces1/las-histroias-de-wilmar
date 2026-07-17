@@ -134,7 +134,7 @@
       <!-- Reproductor del Video de Introducción (Visible de inmediato para autoplay) -->
       <div id="introVideoContainer"
         class="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/betsabet.mp4"
+        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4"
           autoplay muted playsinline preload="auto"></video>
       </div>
 
@@ -846,11 +846,18 @@
       storiesObserver.observe(storiesSection);
     }
 
-    // Control del Video de Introducción (Betsabé Espinal)
+    // Control del Video de Introducción (Marco Fidel Suárez)
     if (introVideo) {
       // Intentar reproducir automáticamente en silencio (permitido por las políticas de autoplay)
       introVideo.muted = true;
       introVideo.play().catch(err => console.log("Error de autoplay en la intro:", err));
+
+      // Limitar la intro a los primeros 60 segundos
+      introVideo.addEventListener('timeupdate', () => {
+        if (introVideo.currentTime >= 60) {
+          closeIntro();
+        }
+      });
 
       if (introSoundBtn) {
         introSoundBtn.addEventListener('click', () => {
@@ -1034,7 +1041,10 @@
       scrollObserver.observe(el);
     });
 
-    // Manejo del Formulario de Captura de Datos
+    // Manejo del Formulario de Captura de Datos (Integración con Google Sheets)
+    // Reemplaza "TU_URL_DE_GOOGLE_APPS_SCRIPT" con la URL generada al implementar tu Apps Script
+    const APPS_SCRIPT_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT";
+
     const contactForm = document.getElementById('contactForm');
     const formContainer = document.getElementById('formContainer');
     const formSuccess = document.getElementById('formSuccess');
@@ -1051,6 +1061,7 @@
 
         // Animación de envío en el botón
         const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnHTML = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = `
           <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -1059,15 +1070,46 @@
           </svg> Registrando...
         `;
 
-        setTimeout(() => {
-          // Ocultar formulario y mostrar éxito
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("TU_URL_DE_GOOGLE_APPS_SCRIPT")) {
+          // Comportamiento de prueba/fallback si no se ha configurado la URL
+          console.warn("Google Apps Script URL no configurada. Usando fallback simulado.");
+          setTimeout(() => {
+            formContainer.classList.add('hidden');
+            successUserName.textContent = name;
+            formSuccess.classList.remove('hidden');
+            formSuccess.classList.add('animate-fade-in');
+            console.log("Datos de contacto registrados (Simulado):", { name, phone, neighborhood, message });
+          }, 1000);
+          return;
+        }
+
+        // Envío real a Google Sheets usando Apps Script
+        fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            neighborhood: neighborhood,
+            message: message
+          })
+        })
+        .then(() => {
           formContainer.classList.add('hidden');
           successUserName.textContent = name;
           formSuccess.classList.remove('hidden');
           formSuccess.classList.add('animate-fade-in');
-
-          console.log("Datos de contacto registrados:", { name, phone, neighborhood, message });
-        }, 1500);
+          console.log("Datos enviados correctamente a Google Sheets.");
+        })
+        .catch(err => {
+          console.error("Error al enviar los datos a Google Sheets:", err);
+          alert("Hubo un problema al enviar tus datos. Por favor intenta de nuevo.");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        });
       });
     }
   </script>

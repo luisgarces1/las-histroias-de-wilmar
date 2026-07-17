@@ -79,7 +79,7 @@ export default function BelloLandingPage() {
   const [activePlace, setActivePlace] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   // Estados para "Las Historias de Wilmar"
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const storyVideoRef = useRef(null);
@@ -112,7 +112,7 @@ export default function BelloLandingPage() {
   const [formData, setFormData] = useState({ voterName: '', voterPhone: '', voterNeighborhood: '', voterMessage: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   // Estados para la Introducción
   const [showIntro, setShowIntro] = useState(true);
   const [introFading, setIntroFading] = useState(false);
@@ -183,19 +183,59 @@ export default function BelloLandingPage() {
     }, 700);
   };
 
+  // Limitar el video de introducción a los primeros 60 segundos
+  const handleTimeUpdate = (e) => {
+    if (e.target.currentTime >= 60) {
+      handleCloseIntro();
+    }
+  };
+
   const handleFormChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
+  // URL de Google Apps Script para guardar datos en Google Sheets
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby6vUouVW9aM2V1fGIjOZWKsJx7hXeOe6lUorRvbh3y_wim-5ngWAKtKo65manxtMmV2Q/exec";
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      console.log("Formulario de contacto registrado:", formData);
-    }, 1500);
+
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("TU_URL_DE_GOOGLE_APPS_SCRIPT")) {
+      // Comportamiento de prueba/fallback si no se ha configurado la URL
+      console.warn("Google Apps Script URL no configurada. Usando fallback simulado.");
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        console.log("Formulario de contacto registrado (Simulado):", formData);
+      }, 1000);
+      return;
+    }
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain'
+      },
+      body: JSON.stringify({
+        name: formData.voterName,
+        phone: formData.voterPhone,
+        neighborhood: formData.voterNeighborhood,
+        message: formData.voterMessage
+      })
+    })
+      .then(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        console.log("Datos enviados correctamente a Google Sheets.");
+      })
+      .catch(err => {
+        console.error("Error al enviar los datos a Google Sheets:", err);
+        alert("Hubo un problema al enviar tus datos. Por favor intenta de nuevo.");
+        setIsSubmitting(false);
+      });
   };
 
   // Manejar la apertura del modal de sitio
@@ -294,36 +334,36 @@ export default function BelloLandingPage() {
     <div className="bg-[#04060A] text-slate-100 min-h-screen antialiased overflow-x-hidden">
       {/* Contenedor móvil centrado en escritorio */}
       <div className="max-w-md mx-auto min-h-screen flex flex-col bg-[#0B0F19] shadow-2xl relative border-x border-slate-900">
-        
+
         {/* ========================================================== */}
         {/* INTRO VIDEO OVERLAY (SPLASH SCREEN)                        */}
         {/* ========================================================== */}
         {showIntro && (
-          <div 
-            id="introOverlay" 
+          <div
+            id="introOverlay"
             className={`fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${introFading ? 'opacity-0 pointer-events-none' : ''}`}
           >
             {/* Reproductor del Video de Introducción (Visible de inmediato para autoplay) */}
             <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-              <video 
+              <video
                 ref={introVideoRef}
                 className="w-full h-full object-contain"
-                src="/assets/video/betsabet.mp4"
+                src="/assets/video/marco fidel.mp4"
                 playsInline
                 autoPlay
                 muted
                 onEnded={handleCloseIntro}
+                onTimeUpdate={handleTimeUpdate}
               ></video>
             </div>
 
             {/* Botón de Silencio Flotante para la Intro */}
             <button
               onClick={toggleIntroSound}
-              className={`absolute top-6 right-6 z-30 w-11 h-11 rounded-full flex items-center justify-center text-white active:scale-95 transition-all shadow-lg hover:scale-105 ${
-                introMuted
+              className={`absolute top-6 right-6 z-30 w-11 h-11 rounded-full flex items-center justify-center text-white active:scale-95 transition-all shadow-lg hover:scale-105 ${introMuted
                   ? 'bg-emerald-500 shadow-emerald-500/30'
                   : 'bg-blue-500 shadow-blue-500/30'
-              }`}
+                }`}
               aria-label="Silenciar / Activar sonido"
             >
               {introMuted && (
@@ -337,7 +377,7 @@ export default function BelloLandingPage() {
             </button>
 
             {/* Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) */}
-            <button 
+            <button
               onClick={handleCloseIntro}
               className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/95 to-blue-500/95 hover:from-emerald-500 hover:to-blue-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 whitespace-nowrap border border-white/10"
             >
@@ -412,7 +452,7 @@ export default function BelloLandingPage() {
               {isMuted && (
                 <span className="absolute -inset-1 rounded-full bg-emerald-500/20 animate-ping opacity-75" />
               )}
-              
+
               {isMuted ? (
                 <VolumeX className="w-5 h-5 text-slate-300" />
               ) : (
@@ -474,7 +514,7 @@ export default function BelloLandingPage() {
 
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl relative z-10 p-2">
             <div className="relative aspect-video bg-black rounded-xl overflow-hidden">
-              <video 
+              <video
                 ref={storyVideoRef}
                 className="w-full h-full object-cover"
                 src={WILMAR_STORIES_LIST[currentStoryIndex]}
@@ -485,7 +525,7 @@ export default function BelloLandingPage() {
             </div>
 
             <div className="mt-4 pb-2 flex justify-center">
-              <button 
+              <button
                 onClick={handleNextStory}
                 className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center gap-2"
               >
@@ -567,63 +607,63 @@ export default function BelloLandingPage() {
 
           {/* Tarjeta de Formulario */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 relative z-10 reveal-on-scroll shadow-xl">
-            
+
             {!isSubmitted ? (
               <div id="formContainer">
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="voterName" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Nombre Completo</label>
-                    <input 
-                      type="text" 
-                      id="voterName" 
-                      required 
+                    <input
+                      type="text"
+                      id="voterName"
+                      required
                       value={formData.voterName}
                       onChange={handleFormChange}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans"
                       placeholder="Ej. Juan Pérez"
                     />
                   </div>
-                  
+
                   <div>
                     <label htmlFor="voterPhone" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Número de WhatsApp</label>
-                    <input 
-                      type="tel" 
-                      id="voterPhone" 
-                      required 
+                    <input
+                      type="tel"
+                      id="voterPhone"
+                      required
                       value={formData.voterPhone}
                       onChange={handleFormChange}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans"
                       placeholder="Ej. 300 123 4567"
                     />
                   </div>
 
                   <div>
                     <label htmlFor="voterNeighborhood" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Barrio o Comuna</label>
-                    <input 
-                      type="text" 
-                      id="voterNeighborhood" 
-                      required 
+                    <input
+                      type="text"
+                      id="voterNeighborhood"
+                      required
                       value={formData.voterNeighborhood}
                       onChange={handleFormChange}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans" 
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 font-sans"
                       placeholder="Ej. Niquía, Cabañas, etc."
                     />
                   </div>
 
                   <div>
                     <label htmlFor="voterMessage" className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 font-sans">Mensaje o Idea (Opcional)</label>
-                    <textarea 
-                      id="voterMessage" 
-                      rows={3} 
+                    <textarea
+                      id="voterMessage"
+                      rows={3}
                       value={formData.voterMessage}
                       onChange={handleFormChange}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 resize-none font-sans" 
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 resize-none font-sans"
                       placeholder="¿Qué propuesta te parece más prioritaria o qué idea tienes?"
                     />
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full mt-4 py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-all hover:brightness-110 disabled:opacity-70 font-sans"
                   >
@@ -684,7 +724,7 @@ export default function BelloLandingPage() {
 
           {/* Lista de Propuestas */}
           <div className="space-y-4 relative z-10">
-            
+
             {/* Propuesta 1 */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 reveal-on-scroll" style={{ transitionDelay: '50ms' }}>
               <div className="flex items-center gap-3 mb-3">
@@ -775,18 +815,16 @@ export default function BelloLandingPage() {
         {/* DYNAMIC MODAL & SURVEY */}
         {/* ========================================================== */}
         <div
-          className={`fixed inset-0 z-50 flex items-end justify-center bg-black/70 transition-opacity duration-300 ${
-            isModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
+          className={`fixed inset-0 z-50 flex items-end justify-center bg-black/70 transition-opacity duration-300 ${isModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
         >
           {/* Fondo para cerrar al tocar fuera */}
           <div className="absolute inset-0 cursor-pointer" onClick={closeModal} />
 
           {/* Caja del Modal */}
           <div
-            className={`w-full max-w-md bg-[#0F1628]/90 backdrop-blur-xl border border-white/10 rounded-t-[2.5rem] overflow-hidden flex flex-col relative z-10 transition-transform duration-300 ease-out max-h-[85vh] ${
-              isModalOpen ? 'translate-y-0' : 'translate-y-full'
-            }`}
+            className={`w-full max-w-md bg-[#0F1628]/90 backdrop-blur-xl border border-white/10 rounded-t-[2.5rem] overflow-hidden flex flex-col relative z-10 transition-transform duration-300 ease-out max-h-[85vh] ${isModalOpen ? 'translate-y-0' : 'translate-y-full'
+              }`}
           >
             <div className="w-12 h-1.5 bg-slate-600/50 rounded-full mx-auto my-3.5 shrink-0" />
 
