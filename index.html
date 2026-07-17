@@ -114,8 +114,8 @@
         <span id="introSoundPing"
           class="absolute -inset-1 rounded-full bg-emeraldCustom/40 animate-ping opacity-75"></span>
         <!-- Icono Silenciado (Mute) -->
-        <svg id="introMuteIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        <svg id="introMuteIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
           class="text-white relative z-10">
           <line x1="1" y1="1" x2="23" y2="23"></line>
           <path
@@ -123,8 +123,8 @@
           </path>
         </svg>
         <!-- Icono Sonido Activado (Volume 2) -->
-        <svg id="introVolumeIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        <svg id="introVolumeIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
           class="text-white hidden relative z-10">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -134,8 +134,8 @@
       <!-- Reproductor del Video de Introducción (Visible de inmediato para autoplay) -->
       <div id="introVideoContainer"
         class="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4"
-          autoplay muted playsinline preload="auto"></video>
+        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4" autoplay muted
+          playsinline preload="auto"></video>
       </div>
 
       <!-- Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) -->
@@ -402,7 +402,8 @@
             </span>
             <h4 class="text-base font-extrabold text-white mt-1.5 leading-none">Páramo de las Baldías</h4>
             <p class="text-[11px] text-slate-300 mt-1 line-clamp-2 font-light">
-              El páramo más pequeño de Colombia, un santuario de niebla y frailejones que abastece de agua a nuestra región.
+              El páramo más pequeño de Colombia, un santuario de niebla y frailejones que abastece de agua a nuestra
+              región.
             </p>
           </div>
         </button>
@@ -1043,7 +1044,7 @@
 
     // Manejo del Formulario de Captura de Datos (Integración con Google Sheets)
     // Reemplaza "TU_URL_DE_GOOGLE_APPS_SCRIPT" con la URL generada al implementar tu Apps Script
-    const APPS_SCRIPT_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydUE-z0bwdX5PdObysqrn-vBotGtM3gevc5PzMYLN9uijSOHc8mg6VBrYIvHgFdqsRPw/exec";
 
     const contactForm = document.getElementById('contactForm');
     const formContainer = document.getElementById('formContainer');
@@ -1070,7 +1071,7 @@
           </svg> Registrando...
         `;
 
-        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("TU_URL_DE_GOOGLE_APPS_SCRIPT")) {
+        if (APPS_SCRIPT_URL === "TU_URL_DE_GOOGLE_APPS_SCRIPT") {
           // Comportamiento de prueba/fallback si no se ha configurado la URL
           console.warn("Google Apps Script URL no configurada. Usando fallback simulado.");
           setTimeout(() => {
@@ -1097,19 +1098,19 @@
             message: message
           })
         })
-        .then(() => {
-          formContainer.classList.add('hidden');
-          successUserName.textContent = name;
-          formSuccess.classList.remove('hidden');
-          formSuccess.classList.add('animate-fade-in');
-          console.log("Datos enviados correctamente a Google Sheets.");
-        })
-        .catch(err => {
-          console.error("Error al enviar los datos a Google Sheets:", err);
-          alert("Hubo un problema al enviar tus datos. Por favor intenta de nuevo.");
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHTML;
-        });
+          .then(() => {
+            formContainer.classList.add('hidden');
+            successUserName.textContent = name;
+            formSuccess.classList.remove('hidden');
+            formSuccess.classList.add('animate-fade-in');
+            console.log("Datos enviados correctamente a Google Sheets.");
+          })
+          .catch(err => {
+            console.error("Error al enviar los datos a Google Sheets:", err);
+            alert("Hubo un problema al enviar tus datos. Por favor intenta de nuevo.");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHTML;
+          });
       });
     }
   </script>

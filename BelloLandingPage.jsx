@@ -196,7 +196,7 @@ export default function BelloLandingPage() {
   };
 
   // URL de Google Apps Script para guardar datos en Google Sheets
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby6vUouVW9aM2V1fGIjOZWKsJx7hXeOe6lUorRvbh3y_wim-5ngWAKtKo65manxtMmV2Q/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydUE-z0bwdX5PdObysqrn-vBotGtM3gevc5PzMYLN9uijSOHc8mg6VBrYIvHgFdqsRPw/exec";
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
