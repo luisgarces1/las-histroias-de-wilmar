@@ -122,19 +122,17 @@ export default function BelloLandingPage() {
   const audioRef = useRef(null);
   const introVideoRef = useRef(null);
 
-  // Autoplay silencioso al cargar la página en React (permitido por las políticas de los navegadores)
-  useEffect(() => {
-    if (showIntro && introVideoRef.current) {
-      introVideoRef.current.muted = true;
-      introVideoRef.current.play().catch(e => console.log("Error de autoplay silencioso en React:", e));
-    }
-  }, [showIntro]);
-
+  // Inicializar en silencio y pausado hasta interacción con el botón de la bocina
   const toggleIntroSound = () => {
     if (introVideoRef.current) {
       const nextMuted = !introVideoRef.current.muted;
       introVideoRef.current.muted = nextMuted;
       setIntroMuted(nextMuted);
+      if (!nextMuted) {
+        introVideoRef.current.play().catch(e => console.log("Error al reproducir en React:", e));
+      } else {
+        introVideoRef.current.pause();
+      }
     }
   };
 
@@ -350,7 +348,6 @@ export default function BelloLandingPage() {
                 className="w-full h-full object-contain"
                 src="/assets/video/marco fidel.mp4"
                 playsInline
-                autoPlay
                 muted
                 onEnded={handleCloseIntro}
                 onTimeUpdate={handleTimeUpdate}

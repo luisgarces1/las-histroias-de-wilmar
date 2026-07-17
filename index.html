@@ -134,8 +134,8 @@
       <!-- Reproductor del Video de Introducción (Visible de inmediato para autoplay) -->
       <div id="introVideoContainer"
         class="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4" autoplay muted
-          playsinline preload="auto"></video>
+        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4"
+          muted playsinline preload="auto"></video>
       </div>
 
       <!-- Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) -->
@@ -849,9 +849,8 @@
 
     // Control del Video de Introducción (Marco Fidel Suárez)
     if (introVideo) {
-      // Intentar reproducir automáticamente en silencio (permitido por las políticas de autoplay)
+      // Inicialmente en silencio y pausado hasta interacción con el botón de la bocina
       introVideo.muted = true;
-      introVideo.play().catch(err => console.log("Error de autoplay en la intro:", err));
 
       // Limitar la intro a los primeros 60 segundos
       introVideo.addEventListener('timeupdate', () => {
@@ -865,6 +864,7 @@
           const introSoundPing = document.getElementById('introSoundPing');
           if (introVideo.muted) {
             introVideo.muted = false;
+            introVideo.play().catch(err => console.log("Error al reproducir video:", err));
             introMuteIcon.classList.add('hidden');
             introVolumeIcon.classList.remove('hidden');
             if (introSoundPing) introSoundPing.classList.add('hidden');
@@ -872,6 +872,7 @@
             introSoundBtn.classList.add('bg-blueCustom', 'shadow-blueCustom/30');
           } else {
             introVideo.muted = true;
+            introVideo.pause();
             introMuteIcon.classList.remove('hidden');
             introVolumeIcon.classList.add('hidden');
             if (introSoundPing) introSoundPing.classList.remove('hidden');
