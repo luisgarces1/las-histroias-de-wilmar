@@ -354,6 +354,28 @@ export default function BelloLandingPage() {
               ></video>
             </div>
 
+            {/* Sugerencia para presionar el botón (Mano animada) */}
+            {introMuted && (
+              <>
+                <style>{`
+                  @keyframes pointRight {
+                    0%, 100% { transform: translateX(0); }
+                    50% { transform: translateX(6px); }
+                  }
+                  .animate-point-right {
+                    animation: pointRight 0.8s ease-in-out infinite;
+                  }
+                `}</style>
+                <div
+                  id="introSoundTooltip"
+                  className="absolute top-[26px] right-20 z-30 flex items-center gap-2 bg-black/75 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-xs font-semibold py-2 px-3.5 rounded-full shadow-lg transition-all duration-300 pointer-events-none select-none"
+                >
+                  <span>Activar sonido</span>
+                  <span className="text-sm animate-point-right">👉</span>
+                </div>
+              </>
+            )}
+
             {/* Botón de Silencio Flotante para la Intro */}
             <button
               onClick={toggleIntroSound}
