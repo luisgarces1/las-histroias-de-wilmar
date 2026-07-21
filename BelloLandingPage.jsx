@@ -564,12 +564,14 @@ export default function BelloLandingPage() {
           <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-blue-500/5 rounded-full blur-[80px] pointer-events-none" />
 
           {/* Indicación de continuación */}
-          <div className="relative z-10 flex flex-col items-center justify-center pb-8 text-center">
-            <p className="text-slate-400 text-xs font-medium tracking-wide max-w-[280px]">
-              Después de ver nuestras historias sigue explorando hacia abajo
-            </p>
-            <div className="flex flex-col items-center mt-2.5 text-emerald-400">
-              <ChevronsDown className="w-5 h-5 animate-bounce" />
+          <div className="relative z-10 flex flex-col items-center justify-center pb-10 text-center">
+            <div className="bg-white/[0.03] backdrop-blur-md border border-emerald-500/25 shadow-xl shadow-emerald-500/5 px-6 py-4 rounded-2xl max-w-xs flex flex-col items-center gap-3">
+              <p className="text-slate-200 text-sm font-semibold tracking-wide leading-relaxed">
+                Después de ver nuestras historias sigue explorando hacia abajo
+              </p>
+              <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                <ChevronsDown className="w-5 h-5 text-emerald-400 animate-bounce" strokeWidth={3} />
+              </div>
             </div>
           </div>
 
