@@ -181,9 +181,9 @@ export default function BelloLandingPage() {
     }, 700);
   };
 
-  // Limitar el video de introducción a los primeros 60 segundos
+  // Limitar el video de introducción a los primeros 56 segundos
   const handleTimeUpdate = (e) => {
-    if (e.target.currentTime >= 60) {
+    if (e.target.currentTime >= 56) {
       handleCloseIntro();
     }
   };

@@ -852,9 +852,9 @@
       // Inicialmente en silencio y pausado hasta interacción con el botón de la bocina
       introVideo.muted = true;
 
-      // Limitar la intro a los primeros 60 segundos
+      // Limitar la intro a los primeros 56 segundos
       introVideo.addEventListener('timeupdate', () => {
-        if (introVideo.currentTime >= 60) {
+        if (introVideo.currentTime >= 56) {
           closeIntro();
         }
       });
