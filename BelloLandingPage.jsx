@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 // IMPORTANTE: Asegúrate de instalar lucide-react (npm i lucide-react)
-import { Volume2, VolumeX, MapPin, X, ChevronDown, Sparkles, Heart, Check, Send, ClipboardList } from 'lucide-react';
+import { Volume2, VolumeX, MapPin, X, ChevronDown, ChevronsDown, Sparkles, Heart, Check, Send, ClipboardList } from 'lucide-react';
 
 /**
  * COMPONENTE: BelloLandingPage
@@ -562,6 +562,16 @@ export default function BelloLandingPage() {
           {/* Brillos ambientales de fondo */}
           <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none" />
           <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-blue-500/5 rounded-full blur-[80px] pointer-events-none" />
+
+          {/* Indicación de continuación */}
+          <div className="relative z-10 flex flex-col items-center justify-center pb-8 text-center">
+            <p className="text-slate-400 text-xs font-medium tracking-wide max-w-[280px]">
+              Después de ver nuestras historias sigue explorando hacia abajo
+            </p>
+            <div className="flex flex-col items-center mt-2.5 text-emerald-400">
+              <ChevronsDown className="w-5 h-5 animate-bounce" />
+            </div>
+          </div>
 
           <div className="mb-8 relative z-10">
             <h3 className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-1 flex items-center gap-1.5">
