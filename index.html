@@ -134,8 +134,8 @@
       <!-- Reproductor del Video de Introducción (Visible de inmediato para autoplay) -->
       <div id="introVideoContainer"
         class="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4"
-          muted playsinline preload="auto"></video>
+        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4" muted playsinline
+          preload="auto"></video>
       </div>
 
       <!-- Botón Inferior Central (Ver más historias de Wilmar - Siempre visible) -->
@@ -852,9 +852,9 @@
       // Inicialmente en silencio y pausado hasta interacción con el botón de la bocina
       introVideo.muted = true;
 
-      // Limitar la intro a los primeros 56 segundos
+      // Limitar la intro a los primeros 41.5 segundos
       introVideo.addEventListener('timeupdate', () => {
-        if (introVideo.currentTime >= 56) {
+        if (introVideo.currentTime >= 41.5) {
           closeIntro();
         }
       });
