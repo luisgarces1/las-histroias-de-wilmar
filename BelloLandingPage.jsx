@@ -543,13 +543,13 @@ export default function BelloLandingPage() {
               />
             </div>
 
-            <div className="mt-4 pb-2 flex justify-center">
+            <div className="mt-4 pb-2 flex justify-center px-4">
               <button
                 onClick={handleNextStory}
-                className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center gap-2"
+                className="group w-full max-w-xs py-3.5 px-6 rounded-2xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-extrabold text-sm tracking-wider uppercase shadow-lg shadow-blue-500/30 hover:shadow-emerald-500/40 active:scale-[0.97] transition-all flex items-center justify-center gap-2.5"
               >
-                <span>Mirar siguiente historia</span>
-                <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
+                <span>🎬 Ver siguiente historia</span>
+                <ChevronDown className="w-4 h-4 -rotate-90 transform group-hover:translate-x-1 transition-transform duration-200" />
               </button>
             </div>
           </div>
