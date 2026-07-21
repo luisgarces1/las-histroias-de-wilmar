@@ -632,7 +632,7 @@ export default function BelloLandingPage() {
               ¿Te sumas a participar?
             </h2>
             <p className="text-xs text-slate-400 mt-2 font-sans">
-              Comparte tu contacto para sumarte a las propuestas y construir el futuro de Bello.
+              Registra tus datos para recibir las próximas Historias de Wilmar, te aseguro que serán más emocionantes.
             </p>
           </div>
 
