@@ -300,7 +300,7 @@ export default function BelloLandingPage() {
     const elements = document.querySelectorAll('.reveal-on-scroll');
     elements.forEach(el => observer.observe(el));
 
-    // Observar sección de historias para pausar el himno de fondo al hacer scroll
+    // Observar sección de historias para pausar el himno de fondo y reproducir/pausar el video de historias al hacer scroll
     const storiesSection = document.getElementById('stories');
     let storiesObserver;
     if (storiesSection) {
@@ -311,10 +311,17 @@ export default function BelloLandingPage() {
               audioRef.current.pause();
               setIsMuted(true);
             }
+            if (storyVideoRef.current) {
+              storyVideoRef.current.play().catch(err => console.log("React Autoplay failed:", err));
+            }
+          } else {
+            if (storyVideoRef.current) {
+              storyVideoRef.current.pause();
+            }
           }
         });
       }, {
-        threshold: 0.1
+        threshold: 0.15
       });
       storiesObserver.observe(storiesSection);
     }
@@ -345,7 +352,7 @@ export default function BelloLandingPage() {
             <div id="introVideoContainer" className="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
               <video
                 ref={introVideoRef}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain pointer-events-none"
                 src="/assets/video/marco fidel.mp4"
                 playsInline
                 muted
@@ -535,9 +542,8 @@ export default function BelloLandingPage() {
             <div className="relative aspect-video bg-black rounded-xl overflow-hidden">
               <video
                 ref={storyVideoRef}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover pointer-events-none"
                 src={WILMAR_STORIES_LIST[currentStoryIndex]}
-                controls
                 playsInline
                 preload="metadata"
               />

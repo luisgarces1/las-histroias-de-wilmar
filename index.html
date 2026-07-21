@@ -146,7 +146,7 @@
       <!-- Reproductor del Video de Introducción (Visible de inmediato para autoplay) -->
       <div id="introVideoContainer"
         class="absolute inset-0 w-full h-full z-10 bg-black flex items-center justify-center">
-        <video id="introVideo" class="w-full h-full object-contain" src="assets/video/marco fidel.mp4" muted playsinline
+        <video id="introVideo" class="w-full h-full object-contain pointer-events-none" src="assets/video/marco fidel.mp4" muted playsinline
           preload="auto"></video>
       </div>
 
@@ -297,8 +297,8 @@
       <!-- Reproductor del Video de la Sección -->
       <div class="glass-card rounded-2xl overflow-hidden shadow-xl border border-white/10 relative z-10 p-2">
         <div class="relative aspect-video bg-black rounded-xl overflow-hidden">
-          <video id="storySectionVideo" class="w-full h-full object-cover"
-            src="assets/video/talleres del ferrocarril.mp4" controls playsinline preload="metadata"></video>
+          <video id="storySectionVideo" class="w-full h-full object-cover pointer-events-none"
+            src="assets/video/talleres del ferrocarril.mp4" playsinline preload="metadata"></video>
         </div>
 
         <div class="mt-4 pb-2 flex justify-center px-4">
@@ -859,20 +859,28 @@
       });
     }
 
-    // Detener música de fondo al hacer scroll hacia la sección de historias
+    // Detener música de fondo al hacer scroll hacia la sección de historias y reproducir/pausar el video
     const storiesSection = document.getElementById('stories');
     if (storiesSection) {
       const storiesObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+          const storySectionVideo = document.getElementById('storySectionVideo');
           if (entry.isIntersecting) {
             if (!bgAudio.paused) {
               stopBackgroundMusic();
+            }
+            if (storySectionVideo) {
+              storySectionVideo.play().catch(err => console.log("Autoplay failed:", err));
+            }
+          } else {
+            if (storySectionVideo) {
+              storySectionVideo.pause();
             }
           }
         });
       }, {
         root: null,
-        threshold: 0.1
+        threshold: 0.15
       });
       storiesObserver.observe(storiesSection);
     }
