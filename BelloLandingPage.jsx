@@ -508,7 +508,7 @@ export default function BelloLandingPage() {
               className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-center flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-transform duration-200"
             >
               <span>🔍 Desplaza hacia abajo para descubrir la historia oculta de Bello</span>
-              <ChevronDown className="w-4 h-4 animate-bounce" />
+              <ChevronDown className="w-6 h-6 animate-bounce shrink-0" strokeWidth={3} />
             </a>
           </div>
         </section>
